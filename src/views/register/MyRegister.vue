@@ -88,7 +88,7 @@ export default {
                 // )
                 const res = await registerAPI(this.form)
                 if(res.data.code!=0) return this.$message.error(res.data.message);
-                this.$message.success(res.date.message)
+                this.$message.success(res.data.message)
                 this.$router.push('/login')
               }else{
                 return false

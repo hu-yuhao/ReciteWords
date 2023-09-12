@@ -4,7 +4,7 @@ import store from '@/store'
 
 export const registerAPI = ({username,password,repassword}) =>{
     return request({
-        url:"",
+        url:"/enroll",
         method:'POST',
         data:{
             username,
@@ -16,7 +16,7 @@ export const registerAPI = ({username,password,repassword}) =>{
 
 export const loginAPI = ({username,password})=>{
     return request({
-        url:'',
+        url:'/login',
         method:'POST',
         data:{
             username,

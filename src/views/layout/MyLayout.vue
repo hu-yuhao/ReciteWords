@@ -87,19 +87,20 @@
                 <el-menu-item index="/srword">
                   <i class="el-icon-menu"></i>
                   <span slot="title">我要背单词！</span>
+
                 </el-menu-item>
                 <!-- <el-submenu index="/srword">
                   <template slot="title">
                     <i class="el-icon-location"></i>
-                    <span>我要背单词！</span>
+                    <span>背单词</span>
                   </template>
-                  <el-menu-item index="/srwords1">选择单词书</el-menu-item>
-                  <el-menu-item index="/srwords2">开始背单词</el-menu-item>
+                  <el-menu-item index="/wordbooks">单词书清单</el-menu-item>
+                  <el-menu-item index="/recirewords">开始背单词</el-menu-item>
                 </el-submenu> -->
                 <el-submenu index="/test">
                   <template slot="title">
                     <i class="el-icon-location"></i>
-                    <span>测试一下！</span>
+                    <span>小试一下</span>
                   </template>
                   <el-menu-item index="/exam">开始考试</el-menu-item>
                   <el-menu-item index="/examrecord">考试记录</el-menu-item>
@@ -121,14 +122,16 @@
             </el-aside>
         <el-container>
             <el-main>
-              <router-view></router-view>
+              <keep-alive>
+                <router-view></router-view>
+              </keep-alive>
             </el-main>
         </el-container>
   </el-container>
 </el-container>
 </template>
 
-<script>
+<script scoped>
 export default {
     name:'MyLayout',
     data() {

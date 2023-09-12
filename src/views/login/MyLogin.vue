@@ -13,8 +13,7 @@
           <el-button class="btn-login" type="primary" @click="loginbtn">登录</el-button>
           <el-link type="primary" @click="$router.push('/reg')">去注册</el-link>
         </el-form-item>
-      </el-form>
-      
+      </el-form>      
     </div>
   </div>
 </template>
@@ -68,9 +67,9 @@ export default {
                 //   }
                 // )
                 const res = await loginAPI(this.loginform)
-                if(res.code!==0)return this.$message.error(res.data.message);
-                this.$message.success(response.data.message)
-                this.updateToken(response.data.token)
+                if(res.data.code!==0)return this.$message.error(res.data.message);
+                this.$message.success(res.data.message)
+                this.updateToken(res.data.data['token'])
                 this.$router.push('/')
             }else{
                 return false

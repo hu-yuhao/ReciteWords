@@ -11,9 +11,7 @@ import SetExam from '@/views/test/SetExam'
 import StartExam from '@/views/test/StartExam'
 import ExamRecord from '@/views/test/ExamRecord'
 import UserInfo from '@/views/user/UserInfo'
-
 import store from '@/store'
-
 const router = new VueRouter({
     routes:[
         {
@@ -37,9 +35,18 @@ const router = new VueRouter({
                         {
                             path:'recirewords',
                             component:ReciteWords
-                        }
+                        },
                     ]
                 },
+
+                // {
+                //     path:'wordbooks',
+                //     component:WordBooks
+                // },
+                // {
+                //     path:'recirewords',
+                //     component:ReciteWords
+                // },
                 {
                     path:'exam',
                     component:Exam,
