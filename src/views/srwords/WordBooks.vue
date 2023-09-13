@@ -101,8 +101,6 @@
           <p>
             <span style="width:200px; display: inline-block;">不记得次数:{{ w.count }}</span>
             <template >
-              <!-- <el-radio v-model="w.state" label=ture >已记住</el-radio>
-              <el-radio v-model="w.state" label=false>未记住</el-radio> -->
               <input type="radio" :name="w.id" v-model="w.state" value=true>已记住
 				      <input type="radio" :name="w.id" v-model="w.state" value=false>未记住
             </template>
@@ -179,6 +177,9 @@ export default {
         book2:this.$store.state.book2,
         book3:this.$store.state.book3
       };
+    },
+    created(){
+      // 此处应发送请求，获取单词书相关信息，封面、名字
     },
     methods: {
       first(){

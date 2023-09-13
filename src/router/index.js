@@ -11,6 +11,7 @@ import SetExam from '@/views/test/SetExam'
 import StartExam from '@/views/test/StartExam'
 import ExamRecord from '@/views/test/ExamRecord'
 import UserInfo from '@/views/user/UserInfo'
+import userPwd from '@/views/user/userPwd'
 import store from '@/store'
 const router = new VueRouter({
     routes:[
@@ -91,12 +92,19 @@ const router = new VueRouter({
                     meta:{
                         title:"词易记-用户信息"
                     }
+                },
+                {
+                    path:'changepassword',
+                    component:userPwd,
+                    meta:{
+                        title:"词易记-修改密码"
+                    }
                 }
             ]
         },
         { 
           path:'/reg',
-          component:MyRegister
+          component:MyRegister,
         },
         {
             path:'/login',

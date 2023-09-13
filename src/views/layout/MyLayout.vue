@@ -115,8 +115,8 @@
                     <span>个人中心</span>
                   </template>
                   <el-menu-item index="/user-info">基本信息</el-menu-item>
-                  <el-menu-item index="/examrecord">修改头像</el-menu-item>
-                  <el-menu-item index="/examrecord">修改密码</el-menu-item>
+                  <el-menu-item index="/changeavatar">修改头像</el-menu-item>
+                  <el-menu-item index="/changepassword">修改密码</el-menu-item>
                 </el-submenu>
               </el-menu>
             </el-aside>

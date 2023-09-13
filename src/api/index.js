@@ -103,3 +103,19 @@ export const updateUserInfoAPT = ({username,nickname,email})=>{
 
     })
 }
+
+export const updatePwdAPI = ({oldPwd,newPwd,rePwd})=>{
+    return request({
+        url:'',
+        method:'',
+        headers:{
+            Authorization:store.state.token
+        },
+        date:{
+            oldPwd,
+            newPwd,
+            rePwd
+        }
+
+    })
+}

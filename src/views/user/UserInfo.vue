@@ -52,6 +52,7 @@ export default {
                     if(res.date.code!==0) return this.$message.error(res.data.message)
                     this.$message.success(res.date.message)
                     this.$store.dispatch('getUserInfoActions')
+                    this.$refs.userFormRef.resetFields()
                 }else{
                     return false
                 }
