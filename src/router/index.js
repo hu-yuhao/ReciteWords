@@ -21,7 +21,10 @@ const router = new VueRouter({
             children:[
                 {
                     path:'home',
-                    component:MyHome
+                    component:MyHome,
+                    meta:{
+                        title:"词易记-首页"
+                    }
                 },
                 {
                     path:'srword',
@@ -30,11 +33,18 @@ const router = new VueRouter({
                     children:[
                         {
                             path:'wordbooks',
-                            component:WordBooks
+                            component:WordBooks,
+                            meta:{
+                                title:"词易记-单词书清单"
+                            }
                         },
                         {
                             path:'recirewords',
-                            component:ReciteWords
+                            component:ReciteWords,
+                            meta:{
+                                title:"词易记-背单词",
+                                isAuth:true,
+                            },
                         },
                     ]
                 },
@@ -55,20 +65,32 @@ const router = new VueRouter({
                         {
                             path:'setexam',
                             component:SetExam,
+                            meta:{
+                                title:"词易记-测前设置"
+                            }
                         },
                         {
                             path:'startexam',
-                            component:StartExam
+                            component:StartExam,
+                            meta:{
+                                title:"词易记-单词自测"
+                            }
                         }
                     ]
                 },
                 {
                     path:'examrecord',
-                    component:ExamRecord
+                    component:ExamRecord,
+                    meta:{
+                        title:"词易记-考试记录"
+                    }
                 },
                 {
                     path:'user-info',
-                    component:UserInfo
+                    component:UserInfo,
+                    meta:{
+                        title:"词易记-用户信息"
+                    }
                 }
             ]
         },
@@ -98,5 +120,10 @@ const router = new VueRouter({
 //         } 
 //     }
 // })
+
+router.afterEach((to,from)=>{
+    document.title = to.meta.title || document.title
+})
+
 
 export default router

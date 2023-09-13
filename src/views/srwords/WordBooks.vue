@@ -12,7 +12,7 @@
             <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
             <p>高中英语</p>
             <br>
-            <el-button @click="drawer1 = true" type="primary" style="margin-left: 16px;">
+            <el-button @click="first" type="primary" style="margin-left: 16px;">
                 点我查看单词书
             </el-button>
           </div>
@@ -22,7 +22,7 @@
             <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
             <p>英语四级</p>
             <br>
-            <el-button @click="drawer2 = true" type="primary" style="margin-left: 16px;">
+            <el-button @click="second" type="primary" style="margin-left: 16px;">
                 点我查看单词书
             </el-button>
           </div>
@@ -32,7 +32,7 @@
             <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
             <p>英语六级</p>
             <br>
-            <el-button @click="drawer3 = true" type="primary" style="margin-left: 16px;">
+            <el-button @click="third" type="primary" style="margin-left: 16px;">
                 点我查看单词书
             </el-button>
           </div>
@@ -47,7 +47,7 @@
       :visible.sync="drawer1"
       :direction="direction"
       :before-close="handleClose">
-      <ul>
+      <ol>
         <li v-for="w in book1" :key="w.id">
           <div>
             <div class="w">单词：{{ w.word }}</div>
@@ -62,14 +62,14 @@
             </template>
           </p>
         </li>
-      </ul>
+      </ol>
     </el-drawer>
     <el-drawer
       title="英语四级"
       :visible.sync="drawer2"
       :direction="direction"
       :before-close="handleClose">
-      <ul>
+      <ol>
         <li v-for="w in book2" :key="w.id">
           <div>
             <div class="w">单词：{{ w.word }}</div>
@@ -84,14 +84,14 @@
             </template>
           </p>
         </li>
-      </ul>
+      </ol>
     </el-drawer>
     <el-drawer
       title="英语六级"
       :visible.sync="drawer3"
       :direction="direction"
       :before-close="handleClose">
-      <ul>
+      <ol>
         <li v-for="w in book3" :key="w.id">
           <div>
             <div class="w">单词：{{ w.word }}</div>
@@ -108,7 +108,7 @@
             </template>
           </p>
         </li>
-      </ul>
+      </ol>
     </el-drawer>
     <!-- <el-card class="box-card2">
     <div slot="header" class="clearfix">
@@ -163,6 +163,8 @@
 </template>
 
 <script>
+import { getBooks } from '@/api';
+import { updateBooks } from '@/api';
 export default {
   data() {
       return {
@@ -179,9 +181,33 @@ export default {
       };
     },
     methods: {
+      first(){
+// 调用接口
+
+        // getBooks(1).then(res=>{
+        //   this.book = res.data
+        // }
+        // )
+        this.drawer1 = true
+      },
+      second(){
+        // getBooks(2).then(res=>{
+        //   this.book = res.data
+        // }
+        // )
+        this.drawer2 = true
+      },
+      third(){
+        // getBooks(3).then(res=>{
+        //   this.book = res.data
+        // }
+        // )
+        this.drawer3 = true
+      },
       handleClose(done) {
         this.$confirm('确认关闭？')
           .then(_ => {
+            // updateBooks(this.book)
             done();
           })
           .catch(_ => {});
@@ -252,24 +278,25 @@ export default {
     font-weight: bolder;
   }
 
-  .el-drawer ul li>span {
+  .el-drawer ol li>span {
     margin-right: 0px;
   }
   
-  .el-drawer ul li span{
+  .el-drawer ol li span{
     font-size: 12px;
   }
-  .el-drawer ul li .w,
-  .el-drawer ul li .m{
+  .el-drawer ol li .w,
+  .el-drawer ol li .m{
     float: left;
   }
-  .el-drawer ul li .w{
-    width: 100px;
-  }
-  .el-drawer ul li .m{
-    margin-left: 100px;
+  .el-drawer ol li .w{
+    display: inline-block;
+    width: 250px;
   }
 
+  .el-drawer ol li{
+    border: 1px dash black;
+  }
 
   .box-card2{
     position: relative;

@@ -13,7 +13,7 @@
           <el-button class="btn-login" type="primary" @click="loginbtn">登录</el-button>
           <el-link type="primary" @click="$router.push('/reg')">去注册</el-link>
         </el-form-item>
-      </el-form>      
+      </el-form>     
     </div>
   </div>
 </template>
@@ -21,7 +21,6 @@
 <script>
 import { loginAPI } from '@/api'
 import {mapMutations} from 'vuex'
-import axios from 'axios'
 export default {
     name:'MyLogin',
     data() {
@@ -52,7 +51,7 @@ export default {
     },
     methods:{
         ...mapMutations(['updateToken']),
-        loginbtn(){;
+        loginbtn(){
            this.$refs.loginRef.validate(async valid=>{
             if(valid){
                 // // console.log(this.loginform)
