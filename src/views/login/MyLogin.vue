@@ -7,7 +7,7 @@
           <el-input placeholder="请输入用户名" v-model="loginform.username"></el-input>
         </el-form-item>
         <el-form-item  prop="password">
-          <el-input type="password" placeholder="请输入密码" v-model="loginform.password"></el-input>
+          <el-input type="password" placeholder="请输入密码" v-model="loginform.password" show-password></el-input>
         </el-form-item>
         <el-form-item>
           <el-button class="btn-login" type="primary" @click="loginbtn">登录</el-button>
@@ -79,7 +79,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .login-container{
     background: url(../../assets/zhuye.jpg);
     /* background-color: blue; */

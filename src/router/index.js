@@ -12,6 +12,7 @@ import StartExam from '@/views/test/StartExam'
 import ExamRecord from '@/views/test/ExamRecord'
 import UserInfo from '@/views/user/UserInfo'
 import userPwd from '@/views/user/userPwd'
+import userAvatar from '@/views/user/userAvatar'
 import store from '@/store'
 const router = new VueRouter({
     routes:[
@@ -98,6 +99,13 @@ const router = new VueRouter({
                     component:userPwd,
                     meta:{
                         title:"词易记-修改密码"
+                    }
+                },
+                {
+                    path:'changeavatar',
+                    component:userAvatar,
+                    meta:{
+                        title:'词易记-更换头像'
                     }
                 }
             ]

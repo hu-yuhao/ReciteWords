@@ -19,14 +19,7 @@
               <img v-else src="../../assets/logo.png" alt="">
               欢迎<span>{{ nickname||username }}</span>
             </el-menu-item>
-            <el-submenu index="2">
-              <template slot="title">
-                <span>个人中心</span>
-              </template>
-              <el-menu-item index="2-1">基本信息</el-menu-item>
-              <el-menu-item index="2-2">修改头像</el-menu-item>
-              <el-menu-item index="2-3">修改密码</el-menu-item>
-            </el-submenu>
+           
             <el-menu-item index="3" @click="quitBtn">退出</el-menu-item>
           </el-menu>
         </el-header>
@@ -86,18 +79,10 @@
 
                 <el-menu-item index="/srword">
                   <i class="el-icon-menu"></i>
-                  <span slot="title">我要背单词！</span>
+                  <span slot="title">背单词</span>
 
                 </el-menu-item>
-                <!-- <el-submenu index="/srword">
-                  <template slot="title">
-                    <i class="el-icon-location"></i>
-                    <span>背单词</span>
-                  </template>
-                  <el-menu-item index="/wordbooks">单词书清单</el-menu-item>
-                  <el-menu-item index="/recirewords">开始背单词</el-menu-item>
-                </el-submenu> -->
-                <el-submenu index="/test">
+                <el-submenu index="/exam">
                   <template slot="title">
                     <i class="el-icon-location"></i>
                     <span>小试一下</span>
@@ -122,9 +107,7 @@
             </el-aside>
         <el-container>
             <el-main>
-              <keep-alive>
                 <router-view></router-view>
-              </keep-alive>
             </el-main>
         </el-container>
   </el-container>

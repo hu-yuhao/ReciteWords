@@ -7,10 +7,10 @@
           <el-input placeholder="请输入用户名" v-model="form.username"></el-input>
         </el-form-item>
         <el-form-item  prop="password">
-          <el-input type="password" placeholder="请输入密码" v-model="form.password"></el-input>
+          <el-input type="password" placeholder="请输入密码" v-model="form.password" show-password></el-input>
         </el-form-item>
         <el-form-item prop="repassword">
-          <el-input type="password"  placeholder="请再次确认密码" v-model="form.repassword"></el-input>
+          <el-input type="password"  placeholder="请再次确认密码" v-model="form.repassword" show-password></el-input>
         </el-form-item>
         <!-- <el-form-item label="密码" prop="pass">
           <el-input placeholder="请输入密码" type="password" v-model="form.password" autocomplete="off"></el-input>
@@ -100,7 +100,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .reg-container{
     background: url(../../assets/zhuye.jpg);
     /* background-color: blue; */

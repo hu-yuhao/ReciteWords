@@ -8,10 +8,10 @@
                 <el-input v-model="pwdForm.oldPwd" type="password"></el-input>
             </el-form-item>
             <el-form-item label="新密码" prop="newPwd">
-                <el-input v-model="pwdForm.newPwd" type="password"></el-input>
+                <el-input v-model="pwdForm.newPwd" type="password" show-password></el-input>
             </el-form-item>
             <el-form-item label="确认新密码" prop="rePwd">
-                <el-input v-model="pwdForm.rePwd" type="password"></el-input>
+                <el-input v-model="pwdForm.rePwd" type="password" show-password></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="updatePwdFn">点击修改</el-button>
@@ -99,7 +99,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .text {
     font-size: 20px;
   }

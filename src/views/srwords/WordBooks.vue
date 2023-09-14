@@ -48,17 +48,18 @@
       :direction="direction"
       :before-close="handleClose">
       <ol>
-        <li v-for="w in book1" :key="w.id">
+        <li v-for="w in book" :key="w.id">
           <div>
             <div class="w">单词：{{ w.word }}</div>
+            <br>
             <div class="m">释义：{{ w.meaning }}</div>
           </div>
           <br>
           <p>
             <span style="width:200px; display: inline-block;">不记得次数:{{ w.count }}</span>
             <template >
-              <input type="radio" :name="w.id" v-model="w.state" value=true>已记住
-				      <input type="radio" :name="w.id" v-model="w.state" value=false>未记住
+              <input type="radio" :name="w.id" v-model="w.state" value=1>已记住
+				      <input type="radio" :name="w.id" v-model="w.state" value=0>未记住
             </template>
           </p>
         </li>
@@ -73,6 +74,7 @@
         <li v-for="w in book2" :key="w.id">
           <div>
             <div class="w">单词：{{ w.word }}</div>
+            <br>
             <div class="m">释义：{{ w.meaning }}</div>
           </div>
           <br>
@@ -95,6 +97,7 @@
         <li v-for="w in book3" :key="w.id">
           <div>
             <div class="w">单词：{{ w.word }}</div>
+            <br>
             <div class="m">释义：{{ w.meaning }}</div>
           </div>
           <br>
@@ -108,31 +111,6 @@
         </li>
       </ol>
     </el-drawer>
-    <!-- <el-card class="box-card2">
-    <div slot="header" class="clearfix">
-        <h2>准备背单词</h2>
-    </div>
-    <h3>step1:选择一本你想背的单词书</h3>
-    <div>
-      <el-radio-group v-model="whichBook">
-        <el-radio-button label="book1">高中英语</el-radio-button>
-        <el-radio-button label="book2">英语四级</el-radio-button>
-        <el-radio-button label="book3">英语六级</el-radio-button>
-      </el-radio-group>
-    </div>
-
-    <h3>step2:确定你想背的单词数</h3>
-    <div>
-      <el-radio-group v-model="howManyWords">
-        <el-radio-button :label="10">10</el-radio-button>
-        <el-radio-button :label="30">30</el-radio-button>
-        <el-radio-button :label="50">50</el-radio-button>
-        <el-radio-button :label="80">80</el-radio-button>
-        <el-radio-button :label="100">100</el-radio-button>
-      </el-radio-group>
-    </div>
-    <el-button class="entry" type="success" @click="entryExam">GoGoGo</el-button>
-  </el-card> -->
     <el-card class="box-card2">
       <div slot="header" class="clearfix">
         <h2>准备背单词</h2>
@@ -154,6 +132,7 @@
           <el-radio-button :label="80">80</el-radio-button>
           <el-radio-button :label="100">100</el-radio-button>
         </el-radio-group>
+        <!-- <el-input type="number" min="0" max="100" v-model="howManyWords" placeholder="请输入单词的数量"></el-input> -->
       </div>
       <el-button class="entry" type="success" @click="entryExam">GoGoGo</el-button>
     </el-card>
@@ -161,7 +140,7 @@
 </template>
 
 <script>
-import { getBooks } from '@/api';
+import { getBooksAPI } from '@/api';
 import { updateBooks } from '@/api';
 export default {
   data() {
@@ -173,6 +152,7 @@ export default {
         whichBook:'',
         howManyWords:0,
         // 目前都是直接拿的，应该发请求
+        book:[],
         book1:this.$store.state.book1,
         book2:this.$store.state.book2,
         book3:this.$store.state.book3
@@ -184,22 +164,21 @@ export default {
     methods: {
       first(){
 // 调用接口
-
-        // getBooks(1).then(res=>{
-        //   this.book = res.data
-        // }
-        // )
+        getBooksAPI('book1').then(res=>{
+          this.book = res.data.data
+        }
+        )
         this.drawer1 = true
       },
       second(){
-        // getBooks(2).then(res=>{
+        // getBooks('book2').then(res=>{
         //   this.book = res.data
         // }
         // )
         this.drawer2 = true
       },
       third(){
-        // getBooks(3).then(res=>{
+        // getBooks('boo3').then(res=>{
         //   this.book = res.data
         // }
         // )
@@ -231,6 +210,9 @@ export default {
 </script>
 
 <style scoped>
+    .el-input{
+      width: 200px;
+    }
     .el-col img{
       width: 90%;
       margin-left: 5%;
@@ -279,26 +261,13 @@ export default {
     font-weight: bolder;
   }
 
-  .el-drawer ol li>span {
+  /* .el-drawer ol li>span {
     margin-right: 0px;
-  }
+  } */
   
   .el-drawer ol li span{
     font-size: 12px;
   }
-  .el-drawer ol li .w,
-  .el-drawer ol li .m{
-    float: left;
-  }
-  .el-drawer ol li .w{
-    display: inline-block;
-    width: 250px;
-  }
-
-  .el-drawer ol li{
-    border: 1px dash black;
-  }
-
   .box-card2{
     position: relative;
   }

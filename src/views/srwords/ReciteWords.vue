@@ -152,7 +152,9 @@ export default {
 
 
   
-
+  .el-icon{
+    font-size: 20px;
+  }
   .box-card {
     width: 80%;
     margin-left: 10%;

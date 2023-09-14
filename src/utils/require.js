@@ -4,7 +4,8 @@ import router from '@/router'
 import { Message } from 'element-ui'
 
 const myAxios = axios.create({
-    baseURL:'http://192.168.181.215:8080'
+    baseURL:'http://192.168.80.215:8080'
+    // http://192.168.181.215:8080
 })
 
 myAxios.interceptors.response.use(function(response){

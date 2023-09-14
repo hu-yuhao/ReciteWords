@@ -26,6 +26,11 @@ const mutations = {
     getReWordsInfo(state,val){
         state.ReWordsInfo.whichBook=val.whichBook,
         state.ReWordsInfo.howManyWords=val.howManyWords
+    },
+    getExamInfo(state,val){
+        state.ExamInfo.whichBookExam=val.whichBook,
+        state.ExamInfo.examNumber=val.examNumber,
+        state.ExamInfo.percentage=val.percentage
     }
 }
 
@@ -43,9 +48,14 @@ const state = {
         whichBook:'',
         howManyWords:0
     },
+    ExamInfo:{
+        whichBookExam:'',
+        examNumber:0,
+        percentage:0,
+    },
     book1:[
-                {id:'1',word:'hello',meaning:'你好',count:'0',state:false},
-                {id:"2",word:'he',meaning:'他',count:'1',state:true}
+                {id:'1',word:'hello',meaning:'你好',count:0,state:false},
+                {id:"2",word:'he',meaning:'他',count:1,state:true}
             ],
     book2:[
                 {id:'1',word:'hellofg',meaning:'你好',count:'0',state:false},

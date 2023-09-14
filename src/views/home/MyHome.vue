@@ -1,6 +1,8 @@
 <template>
     <div class="shouye">
-    <div class="title">选择<span>词易记</span>，记单词真的很<span>容易！</span></div>
+    <!-- <div class="title">选择<span>词易记</span>，记单词真的很<span>容易！</span></div> -->
+    <p class="title">词易记</p>
+    <P>一个简洁实用的英语单词学习网站</P>
     <div class="block">
         <!-- <p class="demonstration">选择词易记，记单词真的很容易</p> -->
         <el-carousel height="450px">
@@ -39,33 +41,32 @@ export default {
 </script>
 
 <style scoped>
-    .title{
+    /* .title{
         color: #565d52;
         font-size: 60px;
         font-weight: bolder;
         padding:30px 0px;
         margin-left: 280px;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    } */
+
+    /* .title span{
+        color: yellowgreen;
+    } */
+
+    p{
+        text-align: center;
+        font-size: 20px;
     }
 
-    .title span{
-        color: yellowgreen;
+    .title{
+        font-size: 25px;
+        font-weight: bolder;
     }
 
     .shouye {
-        /* background: url(../../assets/u=870860854\,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp); */
-        /* background-size: cover; */
-        background-color: antiquewhite;
         height: 100%;
     }
-
-    /* .el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    line-height: 150px;
-    margin: 0;
-  } */
 
 
 
@@ -78,6 +79,7 @@ export default {
   }
 
 img{
-    width: 1276px;
+    width: 100%;
+    height: 100%;
 }
 </style>
