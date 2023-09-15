@@ -40,11 +40,11 @@ export default {
       howManyWords:5,
       ReWordsInfo:this.$store.state.ReWordsInfo,
       wordList:[
-                {id:'1',word:'hello',meaning:'你好',count:0,state:false},
-                {id:"2",word:'he',meaning:'他',count:0,state:true},
-                {id:'3',word:'hello',meaning:'你好',count:0,state:false},
-                {id:"4",word:'heasdg',meaning:'他',count:0,state:true},
-                {id:'5',word:'hellosdg',meaning:'你好',count:0,state:false},
+                // {id:'1',word:'hello',meaning:'你好',count:0,state:false},
+                // {id:"2",word:'he',meaning:'他',count:0,state:true},
+                // {id:'3',word:'hello',meaning:'你好',count:0,state:false},
+                // {id:"4",word:'heasdg',meaning:'他',count:0,state:true},
+                // {id:'5',word:'hellosdg',meaning:'你好',count:0,state:false},
       ],
       scount:0,
       index:0,
@@ -56,30 +56,12 @@ export default {
 
 // 发送请求获取单词列表
 
-  // created(){
-  //   getWordList(this.ReWordsInfo).then(res=>{
-  //     res.data=this.WordList
-  //   })
-  // },
+  created(){
+    getWordListAPI(this.ReWordsInfo).then(res=>{
+      this.wordList=res.data.data
+    })
+  },
   methods:{
-    
-    // nextWord(){
-    //   console.log(this.WordList[this.index].count!==0)
-    //   if(this.WordList[this.index].count!==0){
-    //     this.WordList[this.index].count-=1
-    //   }else{
-    //     this.index+=1
-    //   }
-    // },
-    // rem(){
-    //   this.WordList[this.index].count=0
-    // },
-    // unrem(){
-    //   this.WordList[this.index].count=2
-    // },
-    // nrem(){
-    //   this.WordList[this.index].count=1
-    // }
     nextWord(){
       // console.log(scount!==0)
       if(this.scount!==0){
@@ -165,6 +147,7 @@ export default {
     text-align: center;
     font-size: 50px;
     font-weight: bolder;
+    
   }
 
   .el-button span{

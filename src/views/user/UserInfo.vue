@@ -22,13 +22,13 @@
 </template>
 
 <script>
-import { updateUserInfoAPT } from '@/api'
+import { updateUserInfoAPI } from '@/api'
 export default {
     name:'UserInfo',
     data() {
         return {
             userForm:{
-                username:this.$store.state.username,
+                username:this.$store.state.userInfo.username,
                 nickname:'',
                 email:'',
             },
@@ -48,9 +48,9 @@ export default {
         submitFn(){
             this.$refs.userFormRef.validate(async valid =>{
                 if(valid){
-                    const res = await updateUserInfoAPT(this.userForm)
-                    if(res.date.code!==0) return this.$message.error(res.data.message)
-                    this.$message.success(res.date.message)
+                    const res = await updateUserInfoAPI(this.userForm)
+                    if(res.data.code!==200) return this.$message.error(res.data.message)
+                    this.$message.success(res.data.message)
                     this.$store.dispatch('getUserInfoActions')
                     this.$refs.userFormRef.resetFields()
                 }else{

@@ -6,7 +6,7 @@
             class="el-menu-demo"
             mode="horizontal"
             @select="handleSelect"
-            background-color="#23262e"
+            background-color="#545C64"
             text-color="#fff"
             active-text-color="#ffd04b">
             <!-- <div>
@@ -15,52 +15,16 @@
               <span>欢迎{{ nickname||username }}</span>
             </div> -->
             <el-menu-item class="welcome">
-              <img v-if="user_pic" :src="user_pic" alt="">
+              <img v-if="userPic" :src="userPic" alt="">
               <img v-else src="../../assets/logo.png" alt="">
               欢迎<span>{{ nickname||username }}</span>
             </el-menu-item>
            
-            <el-menu-item index="3" @click="quitBtn">退出</el-menu-item>
+            <el-menu-item index="3" @click="quitBtn"><i class="el-icon-switch-button"></i>退出</el-menu-item>
           </el-menu>
         </el-header>
         <el-container>
             <el-aside width="200px">
-              <!-- <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-                <el-submenu index="1">
-                  <template slot="title">
-                    <i class="el-icon-location"></i>
-                    <span slot="title">导航一</span>
-                  </template>
-                  <el-menu-item-group>
-                    <span slot="title">分组一</span>
-                    <el-menu-item index="1-1">选项1</el-menu-item>
-                    <el-menu-item index="1-2">选项2</el-menu-item>
-                  </el-menu-item-group>
-                  <el-menu-item-group title="分组2">
-                    <el-menu-item index="1-3">选项3</el-menu-item>
-                  </el-menu-item-group>
-                  <el-submenu index="1-4">
-                    <span slot="title">选项4</span>
-                    <el-menu-item index="1-4-1">选项1</el-menu-item>
-                  </el-submenu>
-                </el-submenu>
-                <el-menu-item index="2">
-                  <i class="el-icon-menu"></i>
-                  <span slot="title">导航二</span>
-                </el-menu-item>
-                <el-menu-item index="3" disabled>
-                  <i class="el-icon-document"></i>
-                  <span slot="title">导航三</span>
-                </el-menu-item>
-                <el-menu-item index="4">
-                  <i class="el-icon-setting"></i>
-                  <span slot="title">导航四</span>
-                </el-menu-item>
-              </el-menu>
-              <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
-                <el-radio-button :label="false">展开</el-radio-button>
-                <el-radio-button :label="true">收起</el-radio-button>
-              </el-radio-group> -->
               <el-menu
                 default-active="/home"
                 class="el-menu-vertical-demo"
@@ -78,13 +42,13 @@
                 
 
                 <el-menu-item index="/srword">
-                  <i class="el-icon-menu"></i>
+                  <i class="el-icon-document"></i>
                   <span slot="title">背单词</span>
 
                 </el-menu-item>
                 <el-submenu index="/exam">
                   <template slot="title">
-                    <i class="el-icon-location"></i>
+                    <i class="el-icon-edit"></i>
                     <span>小试一下</span>
                   </template>
                   <el-menu-item index="/exam">开始考试</el-menu-item>
@@ -96,12 +60,12 @@
                 </el-menu-item> -->
                 <el-submenu index="/user">
                   <template slot="title">
-                    <i class="el-icon-setting"></i>
+                    <i class="el-icon-s-custom"></i>
                     <span>个人中心</span>
                   </template>
-                  <el-menu-item index="/user-info">基本信息</el-menu-item>
-                  <el-menu-item index="/changeavatar">修改头像</el-menu-item>
-                  <el-menu-item index="/changepassword">修改密码</el-menu-item>
+                  <el-menu-item index="/user-info"><i class="el-icon-s-operation"></i>基本信息</el-menu-item>
+                  <el-menu-item index="/changeavatar"><i class="el-icon-camera-solid"></i>修改头像</el-menu-item>
+                  <el-menu-item index="/changepassword"><i class="el-icon-key"></i>修改密码</el-menu-item>
                 </el-submenu>
               </el-menu>
             </el-aside>
@@ -115,12 +79,20 @@
 </template>
 
 <script scoped>
+import { getUserInfoAPI } from '@/api';
 export default {
     name:'MyLayout',
     data() {
       return {
         nickname:this.$store.state.userInfo.nickname,
+        userPic:this.$store.state.userInfo.userPic,
+        username:this.$store.state.userInfo.username,
       }
+    },
+    created(){
+      getUserInfoAPI().then(res=>{
+        this.$store.commit('updateUserInfo',res.data.data)
+      })
     },
     methods:{
       quitBtn(){
@@ -146,7 +118,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   /* .el-aside .el-radio-button{
     width:50%
   } */
@@ -160,9 +132,10 @@ export default {
     margin: 0px;
     width: 200px;
     text-align: center;
-    margin-top: 10px;
+    margin-top: 15px;
     margin-left: -20px;
     font-size: 30px;
+    color: #fff;
   }
 
   .el-container{
@@ -170,18 +143,19 @@ export default {
   }
 
   .el-aside{
-    background-color: #23262e; 
+    /* #23262e */
+    background-color: #545C64; 
   }
 
   .el-header{
     display: flex;
     justify-content: space-between;
-    background-color: #23262e;    
+    background-color: #545C64;    
   }
 
   .el-main{
     overflow-y: scroll;
-    background-color: #f2f2f2;
+    background-color: #545C64;
   }
 
   .el-menu-item img{

@@ -184,6 +184,12 @@ export default {
           // }
           // this.$store.commit('getReWordsInfo',ReWordsInfo)
 
+          const ExamWordsInfo = {
+            whichBookExam:this.whichBookExam,
+            percentage:this.percentage,
+            examNumber:this.examNumber,
+          }
+
           const ExamInfo = {
             whichBookExam:this.whichBookExam,
             examNumber:this.examNumber,

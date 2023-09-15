@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="all">
     <div>
       <el-card class="box-card1">
     <div slot="header" class="clearfix">
@@ -13,7 +13,7 @@
             <p>高中英语</p>
             <br>
             <el-button @click="first" type="primary" style="margin-left: 16px;">
-                点我查看单词书
+                点击查看单词书
             </el-button>
           </div>
         </el-col>
@@ -23,7 +23,7 @@
             <p>英语四级</p>
             <br>
             <el-button @click="second" type="primary" style="margin-left: 16px;">
-                点我查看单词书
+                点击查看单词书
             </el-button>
           </div>
         </el-col>
@@ -33,7 +33,7 @@
             <p>英语六级</p>
             <br>
             <el-button @click="third" type="primary" style="margin-left: 16px;">
-                点我查看单词书
+                点击查看单词书
             </el-button>
           </div>
         </el-col>
@@ -71,7 +71,7 @@
       :direction="direction"
       :before-close="handleClose">
       <ol>
-        <li v-for="w in book2" :key="w.id">
+        <li v-for="w in book" :key="w.id">
           <div>
             <div class="w">单词：{{ w.word }}</div>
             <br>
@@ -81,8 +81,8 @@
           <p>
             <span style="width:200px; display: inline-block;">不记得次数:{{ w.count }}</span>
             <template >
-              <input type="radio" :name="w.id" v-model="w.state" value=true>已记住
-				      <input type="radio" :name="w.id" v-model="w.state" value=false>未记住
+              <input type="radio" :name="w.id" v-model="w.state" value=1>已记住
+				      <input type="radio" :name="w.id" v-model="w.state" value=0>未记住
             </template>
           </p>
         </li>
@@ -94,7 +94,7 @@
       :direction="direction"
       :before-close="handleClose">
       <ol>
-        <li v-for="w in book3" :key="w.id">
+        <li v-for="w in book" :key="w.id">
           <div>
             <div class="w">单词：{{ w.word }}</div>
             <br>
@@ -104,8 +104,8 @@
           <p>
             <span style="width:200px; display: inline-block;">不记得次数:{{ w.count }}</span>
             <template >
-              <input type="radio" :name="w.id" v-model="w.state" value=true>已记住
-				      <input type="radio" :name="w.id" v-model="w.state" value=false>未记住
+              <input type="radio" :name="w.id" v-model="w.state" value=1>已记住
+				      <input type="radio" :name="w.id" v-model="w.state" value=0>未记住
             </template>
           </p>
         </li>
@@ -153,9 +153,6 @@ export default {
         howManyWords:0,
         // 目前都是直接拿的，应该发请求
         book:[],
-        book1:this.$store.state.book1,
-        book2:this.$store.state.book2,
-        book3:this.$store.state.book3
       };
     },
     created(){
@@ -166,22 +163,22 @@ export default {
 // 调用接口
         getBooksAPI('book1').then(res=>{
           this.book = res.data.data
-        }
+          }
         )
         this.drawer1 = true
       },
       second(){
-        // getBooks('book2').then(res=>{
-        //   this.book = res.data
-        // }
-        // )
+        getBooksAPI('book2').then(res=>{
+          this.book = res.data.data
+        }
+        )
         this.drawer2 = true
       },
       third(){
-        // getBooks('boo3').then(res=>{
-        //   this.book = res.data
-        // }
-        // )
+        getBooksAPI('book3').then(res=>{
+          this.book = res.data.data
+          }
+        )
         this.drawer3 = true
       },
       handleClose(done) {
@@ -219,10 +216,6 @@ export default {
     }
     .el-row {
     margin-bottom: 20px;
-    /* &:last-child {
-      margin-bottom: 0;
-    } */
- 
   }
   .el-col {
     border-radius: 4px;

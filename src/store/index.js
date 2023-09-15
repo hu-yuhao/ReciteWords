@@ -9,7 +9,7 @@ const actions = {
     getUserInfoActions(context){
         getUserInfoAPI().then(
             res=>{
-                context.commit('updateUserInfo',res.date.date)
+                context.commit('updateUserInfo',res.data.data)
             }
         )
     }
@@ -24,14 +24,14 @@ const mutations = {
         state.userInfo = val
     },
     getReWordsInfo(state,val){
-        state.ReWordsInfo.whichBook=val.whichBook,
-        state.ReWordsInfo.howManyWords=val.howManyWords
+        state.ReWordsInfo.book=val.whichBook,
+        state.ReWordsInfo.number=val.howManyWords
     },
     getExamInfo(state,val){
         state.ExamInfo.whichBookExam=val.whichBook,
         state.ExamInfo.examNumber=val.examNumber,
         state.ExamInfo.percentage=val.percentage
-    }
+    },
 }
 
 const getters = {
@@ -42,11 +42,16 @@ const state = {
     token:'',
     // token:localStorage.getItem('token')
     userInfo:{
-        nickname:'huyuhao'
+        id:0,
+        nickname:'',
+        password:'',
+        email:'',
+        username:'',
+        userPic:'',
     },
     ReWordsInfo:{
-        whichBook:'',
-        howManyWords:0
+        book:'',
+        number:0
     },
     ExamInfo:{
         whichBookExam:'',

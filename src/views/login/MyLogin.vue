@@ -54,17 +54,6 @@ export default {
         loginbtn(){
            this.$refs.loginRef.validate(async valid=>{
             if(valid){
-                // // console.log(this.loginform)
-                // axios.post("",this.loginform).then(
-                //   response => {
-                //     if(response.data.code !==0){
-                //         this.$message.error(response.data.message);
-                //     }else{
-                //         this.$message.success(response.data.message)
-                //         this.updateToken(response.data.token)
-                //     }
-                //   }
-                // )
                 const res = await loginAPI(this.loginform)
                 if(res.data.code!==0)return this.$message.error(res.data.message);
                 this.$message.success(res.data.message)

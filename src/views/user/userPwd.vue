@@ -80,9 +80,9 @@ export default {
             this.$refs.pwdFormRef.validate(async valid=>{
               if(valid){
                 const res = await updatePwdAPI(this.pwdForm)
-                if(res.code!==0)return this.$message.error(res.date.message)
+                if(res.data.code!==200)return this.$message.error(res.data.message)
                 this.$message.success(res.data.message)
-                this.$refs.pwdFormRef.resetFields
+                this.$refs.pwdFormRef.resetFields()
                 this.$store.commit('updateToken','')
                 this.$store.commit('updateUserInfo',{})
                 this.$router.push('/login')
@@ -92,8 +92,7 @@ export default {
             })
         },
         resetFn(){
-            this.$refs.pwdFormRef.resetFields()
-           
+            this.$refs.pwdFormRef.resetFields()  
         }
     }
 }

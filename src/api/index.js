@@ -26,11 +26,10 @@ export const loginAPI = ({username,password})=>{
     })
 }
 
-
 // 获取用户数据
 export const getUserInfoAPI = ()=>{
     return request({
-        url:'',
+        url:'/revise/get',
         headers:{
            Authorization:store.state.token
         }
@@ -68,15 +67,15 @@ export const updateBooks = Book=>{
 }
 
 // 获取背单词单词列表
-export const getWordListAPI = ({whichBook,number})=>{
+export const getWordListAPI = ({book,number})=>{
     return request({
-        url:'',
-        method:'GET',
+        url:'/book/recite',
+        method:'POST',
         headers:{
             Authorization:store.state.token
         },
-        params:{
-            book:whichBook,
+        data:{
+            book,
             number
         }
     })
@@ -98,14 +97,14 @@ export const updateWordsAPI = ({whichBook,wordList})=>{
     })
 }
 
-export const updateUserInfoAPT = ({username,nickname,email})=>{
+export const updateUserInfoAPI = ({username,nickname,email})=>{
     return request({
-        url:'',
-        method:'',
+        url:'/revise/emailNickname',
+        method:'POST',
         headers:{
             Authorization:store.state.token
         },
-        date:{
+        data:{
             username,
             nickname,
             email,
@@ -116,15 +115,15 @@ export const updateUserInfoAPT = ({username,nickname,email})=>{
 
 export const updatePwdAPI = ({oldPwd,newPwd,rePwd})=>{
     return request({
-        url:'',
-        method:'',
+        url:'/revise/password',
+        method:'POST',
         headers:{
             Authorization:store.state.token
         },
-        date:{
-            oldPwd,
-            newPwd,
-            rePwd
+        data:{
+            passwordY:oldPwd,
+            password:newPwd,
+            repassword:rePwd
         }
     })
 }
@@ -138,6 +137,16 @@ export const updateUserAvatarAPI = (avatar) =>{
         },
         data:{
             avatar
+        }
+    })
+}
+
+export const getUserExamRecordAPI=()=>{
+    return require({
+        url:'',
+        method:'',
+        header:{
+            Authorization:store.state.token
         }
     })
 }
