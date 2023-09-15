@@ -9,13 +9,13 @@
           </div>
           <el-row>
             <el-col :span="8">
-              <el-radio v-model="whichBookExam" :label=1><span>高中英语</span></el-radio>
-              <div @click="first" class="grid-content bg-purple">
-                <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
-                <p><span>书名：</span>高中英语</p>
-                <p><span>简介：</span>针对高考打造的英语词汇书</p>
-                <p><span>适用人群：</span>高中生</p>
-              </div>
+                <el-radio v-model="whichBookExam" :label=1><span>高中英语</span></el-radio>
+                <div @click="first" class="grid-content bg-purple">
+                  <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
+                  <p><span>书名：</span>高中英语</p>
+                  <p><span>简介：</span>针对高考打造的英语词汇书</p>
+                  <p><span>适用人群：</span>高中生</p>
+                </div>
             </el-col>
             <el-col  :span="8">
               <el-radio v-model="whichBookExam" :label=2><span>英语四级</span></el-radio>
@@ -81,7 +81,7 @@
       :direction="direction"
       :before-close="handleClose">
       <ol>
-        <li v-for="w in book1" :key="w.id">
+        <li v-for="w in book" :key="w.id">
           <div>
             <div class="w">单词：{{ w.word }}</div>
             <div class="m">释义：{{ w.meaning }}</div>
@@ -95,7 +95,7 @@
       :direction="direction"
       :before-close="handleClose">
       <ol>
-        <li v-for="w in book2" :key="w.id">
+        <li v-for="w in book" :key="w.id">
           <div>
             <div class="w">单词：{{ w.word }}</div>
             <div class="m">释义：{{ w.meaning }}</div>
@@ -109,7 +109,7 @@
       :direction="direction"
       :before-close="handleClose">
       <ol>
-        <li v-for="w in book3" :key="w.id">
+        <li v-for="w in book" :key="w.id">
           <div>
             <div class="w">单词：{{ w.word }}</div>
             <div class="m">释义：{{ w.meaning }}</div>
@@ -122,6 +122,7 @@
 </template>
 
 <script>
+import { getBooksAPI } from '@/api';
 export default {
   data() {
       return {
@@ -133,10 +134,7 @@ export default {
         percentage:0,
         examNumber:0,
         testTime:0,
-        // 目前都是直接拿的，应该发请求
-        book1:this.$store.state.book1,
-        book2:this.$store.state.book2,
-        book3:this.$store.state.book3
+        book:[],
       };
     },
     created(){
@@ -144,26 +142,24 @@ export default {
     },
     methods: {
       first(){
-// 调用接口
-
-        // getBooks(1).then(res=>{
-        //   this.book = res.data
-        // }
-        // )
+        getBooksAPI('book1').then(res=>{
+          this.book = res.data.data
+        }
+        )
         this.drawer1 = true
       },
       second(){
-        // getBooks(2).then(res=>{
-        //   this.book = res.data
-        // }
-        // )
+        getBooksAPI('book2').then(res=>{
+          this.book = res.data.data
+        }
+        )
         this.drawer2 = true
       },
       third(){
-        // getBooks(3).then(res=>{
-        //   this.book = res.data
-        // }
-        // )
+        getBooksAPI('book3').then(res=>{
+          this.book = res.data.data
+        }
+        )
         this.drawer3 = true
       },
       handleClose(done) {
@@ -178,22 +174,11 @@ export default {
           this.$message.error('请先选择好相关数据,再进入考试哦')
         }else{
           this.$message.success('开始考试')
-          // const ReWordsInfo = {
-          //   whichBook:this.whichBook,
-          //   howManyWords:this.howManyWords
-          // }
-          // this.$store.commit('getReWordsInfo',ReWordsInfo)
-
-          const ExamWordsInfo = {
-            whichBookExam:this.whichBookExam,
-            percentage:this.percentage,
-            examNumber:this.examNumber,
-          }
-
           const ExamInfo = {
             whichBookExam:this.whichBookExam,
             examNumber:this.examNumber,
-            percentage:this.percentage
+            percentage:this.percentage,
+            testTime:this.testTime
           }
           this.$store.commit('getExamInfo',ExamInfo)
           this.$router.push('/exam/startexam' )
@@ -203,7 +188,7 @@ export default {
   };
 </script>
 
-<style>
+<style scoped>
 .el-card{
   position: relative;
 }

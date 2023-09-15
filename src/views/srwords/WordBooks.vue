@@ -2,42 +2,41 @@
   <div class="all">
     <div>
       <el-card class="box-card1">
-    <div slot="header" class="clearfix">
-      <h2>单词书清单：</h2>
-    </div>
-      
-      <el-row>
-        <el-col :span="8">
-          <div class="grid-content bg-purple">
-            <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
-            <p>高中英语</p>
-            <br>
-            <el-button @click="first" type="primary" style="margin-left: 16px;">
-                点击查看单词书
-            </el-button>
-          </div>
-        </el-col>
-        <el-col :span="8">
-          <div class="grid-content bg-purple">
-            <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
-            <p>英语四级</p>
-            <br>
-            <el-button @click="second" type="primary" style="margin-left: 16px;">
-                点击查看单词书
-            </el-button>
-          </div>
-        </el-col>
-        <el-col :span="8">
-          <div class="grid-content bg-purple">
-            <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
-            <p>英语六级</p>
-            <br>
-            <el-button @click="third" type="primary" style="margin-left: 16px;">
-                点击查看单词书
-            </el-button>
-          </div>
-        </el-col>
-      </el-row>
+        <div slot="header" class="clearfix">
+          <h2>单词书清单：</h2>
+        </div>
+        <el-row>
+          <el-col :span="8">
+            <div class="grid-content bg-purple">
+              <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
+              <p>高中英语</p>
+              <br>
+              <el-button @click="first" type="primary" style="margin-left: 16px;">
+                  点击查看单词书
+              </el-button>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div class="grid-content bg-purple">
+              <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
+              <p>英语四级</p>
+              <br>
+              <el-button @click="second" type="primary" style="margin-left: 16px;">
+                  点击查看单词书
+              </el-button>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div class="grid-content bg-purple">
+              <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
+              <p>英语六级</p>
+              <br>
+              <el-button @click="third" type="primary" style="margin-left: 16px;">
+                  点击查看单词书
+              </el-button>
+            </div>
+          </el-col>
+        </el-row>
     </el-card>
 
     </div>
@@ -113,7 +112,7 @@
     </el-drawer>
     <el-card class="box-card2">
       <div slot="header" class="clearfix">
-        <h2>准备背单词</h2>
+        <h2>设置目标</h2>
       </div>
       <h3>step1:选择一本你想背的单词书</h3>
       <div>
@@ -141,7 +140,7 @@
 
 <script>
 import { getBooksAPI } from '@/api';
-import { updateBooks } from '@/api';
+import { updateBooksAPI } from '@/api';
 export default {
   data() {
       return {
@@ -150,6 +149,7 @@ export default {
         drawer3: false,
         direction: 'rtl',
         whichBook:'',
+        thisBook:'',
         howManyWords:0,
         // 目前都是直接拿的，应该发请求
         book:[],
@@ -163,6 +163,7 @@ export default {
 // 调用接口
         getBooksAPI('book1').then(res=>{
           this.book = res.data.data
+          this.thisBook='book1'
           }
         )
         this.drawer1 = true
@@ -170,6 +171,7 @@ export default {
       second(){
         getBooksAPI('book2').then(res=>{
           this.book = res.data.data
+          this.thisBook='book2'
         }
         )
         this.drawer2 = true
@@ -177,6 +179,7 @@ export default {
       third(){
         getBooksAPI('book3').then(res=>{
           this.book = res.data.data
+          this.thisBook='book3'
           }
         )
         this.drawer3 = true
@@ -184,7 +187,7 @@ export default {
       handleClose(done) {
         this.$confirm('确认关闭？')
           .then(_ => {
-            // updateBooks(this.book)
+            updateBooksAPI({book:this.thisBook,wordList:this.book})
             done();
           })
           .catch(_ => {});
@@ -270,4 +273,13 @@ export default {
     bottom:10%;
     width: 200px;
   }
+
+  /* .el-card{
+    background-color: #545C64;
+    border: none;
+  }
+
+  .clearfix{
+    border-bottom-color: #545C64
+  } */
 </style>

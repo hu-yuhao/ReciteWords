@@ -6,8 +6,8 @@
             class="el-menu-demo"
             mode="horizontal"
             @select="handleSelect"
-            background-color="#545C64"
-            text-color="#fff"
+            background-color="#f3f3f3"
+            text-color="black"
             active-text-color="#ffd04b">
             <!-- <div>
               <img v-if="user_pic" :src="user_pic" alt="">
@@ -30,8 +30,8 @@
                 class="el-menu-vertical-demo"
                 @open="handleOpen"
                 @close="handleClose"
-                background-color="#545c64"
-                text-color="#fff"
+                background-color="#f3f3f3"
+                text-color="black"
                 active-text-color="#ffd04b"
                 unique-opened
                 router>
@@ -39,25 +39,18 @@
                   <i class="el-icon-menu"></i>
                   <span slot="title">首页</span>
                 </el-menu-item>
-                
-
                 <el-menu-item index="/srword">
-                  <i class="el-icon-document"></i>
+                  <i class="el-icon-reading"></i>
                   <span slot="title">背单词</span>
-
                 </el-menu-item>
                 <el-submenu index="/exam">
                   <template slot="title">
                     <i class="el-icon-edit"></i>
                     <span>小试一下</span>
                   </template>
-                  <el-menu-item index="/exam">开始考试</el-menu-item>
-                  <el-menu-item index="/examrecord">考试记录</el-menu-item>
+                  <el-menu-item index="/exam"><i class="el-icon-document"></i>开始考试</el-menu-item>
+                  <el-menu-item index="/examrecord"><i class="el-icon-document-copy"></i>考试记录</el-menu-item>
                 </el-submenu>
-                <!-- <el-menu-item index="4">
-                  <i class="el-icon-setting"></i>
-                  <span slot="title">个人中心</span>
-                </el-menu-item> -->
                 <el-submenu index="/user">
                   <template slot="title">
                     <i class="el-icon-s-custom"></i>
@@ -123,11 +116,17 @@ export default {
     width:50%
   } */
 
-  .welcome{
-    border: 1px solid rgba(95, 95, 3, 0.405);
+  /* .welcome{
+    border: 1px solid rgba(15, 15, 0, 0.405);
     border-top: none;
     border-bottom: none;
+  } */
+
+  .welcome span{
+    font-size: 18px;
+    font-weight: bolder;
   }
+
   .el-header h1 {
     margin: 0px;
     width: 200px;
@@ -135,7 +134,7 @@ export default {
     margin-top: 15px;
     margin-left: -20px;
     font-size: 30px;
-    color: #fff;
+    /* color: #fff; */
   }
 
   .el-container{
@@ -144,18 +143,18 @@ export default {
 
   .el-aside{
     /* #23262e */
-    background-color: #545C64; 
+    background-color: #f3f3f3; 
   }
 
   .el-header{
     display: flex;
     justify-content: space-between;
-    background-color: #545C64;    
+    background-color: #f3f3f3;    
   }
 
   .el-main{
     overflow-y: scroll;
-    background-color: #545C64;
+    /* background-color: #545C64; */
   }
 
   .el-menu-item img{

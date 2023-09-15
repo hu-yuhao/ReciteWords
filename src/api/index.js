@@ -36,7 +36,6 @@ export const getUserInfoAPI = ()=>{
     })
 }
 
-
 // 获取对应单词书中的单词
 export const getBooksAPI = book=>{
     return request({
@@ -51,17 +50,17 @@ export const getBooksAPI = book=>{
     })
 }
 
-
 // 更新对应单词书中的单词
-export const updateBooks = Book=>{
+export const updateBooksAPI = ({book,wordList})=>{
     return request({
         url:'',
-        method:'GET',
+        method:'POST',
         headers:{
             Authorization:store.state.token
         },
-        params:{
-            whichBook:Book
+        data:{
+            book,
+            wordList
         }
     })
 }
@@ -96,6 +95,49 @@ export const updateWordsAPI = ({whichBook,wordList})=>{
         }
     })
 }
+
+// 获得testList API
+export const getExamQuestionAPI=({whichBookExam,examNumber,percentage})=>{
+    return require({
+        url:'',
+        method:'POST',
+        header:{
+            Authorization:store.state.token
+        },
+        data:{
+            book:whichBookExam,
+            number:examNumber,
+            percentage
+        }
+    })
+}
+
+
+// 提交本次考试记录API
+export const sendExamRecordAPT=({})=>{
+    return require({
+        url:'',
+        method:'POST',
+        header:{
+            Authorization:store.state.token
+        },
+        data:{
+            
+        }
+    })
+}
+
+// 获取用户考试记录
+export const getUserExamRecordAPI=()=>{
+    return require({
+        url:'',
+        method:'',
+        header:{
+            Authorization:store.state.token
+        }
+    })
+}
+
 
 export const updateUserInfoAPI = ({username,nickname,email})=>{
     return request({
@@ -141,12 +183,10 @@ export const updateUserAvatarAPI = (avatar) =>{
     })
 }
 
-export const getUserExamRecordAPI=()=>{
-    return require({
-        url:'',
-        method:'',
-        header:{
-            Authorization:store.state.token
-        }
-    })
-}
+
+
+
+
+
+
+

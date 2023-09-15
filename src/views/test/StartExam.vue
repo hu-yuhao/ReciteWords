@@ -35,7 +35,8 @@
               <tr v-for="(item,index) in errList" :key="index">
                   <td>{{ item.question }}</td>
                   <td>{{ item.trueAnswer }}</td>
-                  <td>{{ item.yourAnswer }}</td>
+                  <td v-if="item.yourAnswer">{{ item.yourAnswer }}</td>
+                  <td v-else>未作答</td>
               </tr>
             </tbody>
         </table>
@@ -46,18 +47,21 @@
 </template>
 
 <script>
-var Time
+
+import { getExamQuestionAPI, sendExamRecordAPT } from '@/api'
+import dayjs from 'dayjs'
 export default {
   data() {
     return {
+      // book:this.$store.state.whichBookExam,
+      // percentage:this.$store.state.percentage,
+
+      ExamInfo:this.$store.state.ExamInfo,
+
       number:4,
-      minutes:3,
-      seconds:3,
+      minutes:this.$store.state.ExamInfo.testTime,
+      seconds:0,
       testList:[
-        // {question:'hello',trueAnswer:'你好',answer:[{content:'你好',istrue:0},{content:'漂亮的',istrue:1},{content:'美丽的',istrue:1},{content:'开心的',istrue:1}]},
-        // {question:'happy',trueAnswer:'你好',answer:[{content:'5',istrue:1},{content:'8',istrue:1},{content:'1',istrue:1},{content:'开心的',istrue:0}]},
-        // {question:'beautiful',trueAnswer:'你好',answer:[{content:'88',istrue:1},{content:'漂亮的',istrue:0},{content:'55',istrue:1},{content:'11',istrue:1}]},
-        // {question:'he',trueAnswer:'你好',answer:[{content:'他',istrue:0},{content:'888',istrue:1},{content:'455',istrue:1},{content:'999',istrue:1}]}
         {question:'hello',trueAnswer:'你好',answer:['你好','漂亮的','美丽的','开心的']},
         {question:'happy',trueAnswer:'开心的',answer:['111','222','333','开心的']},
         {question:'beautiful',trueAnswer:'美丽的',answer:['11','22','美丽的','33']},
@@ -69,6 +73,7 @@ export default {
       TrueNumber:0,
       isShow:true,
       score:0,
+      Date:'',
     }
   },
   computed:{
@@ -80,13 +85,10 @@ export default {
       return this.score
     }
   },
-  // beforeUpdated(){
-  //   this.shuffle(this.testList[this.index].answer)
-  // },
   methods:{
     timer(){
       const This = this
-      Time =window.setInterval(function () {
+      const Time =window.setInterval(function () {
         if (This.seconds === 0 && This.minutes !== 0) {
           if(This.minutes === 3){
             This.$message.info('离测试结束还有三分钟，抓紧时间哦')
@@ -94,7 +96,9 @@ export default {
           This.seconds = 59
           This.minutes -= 1
         } else if (This.minutes === 0 && This.seconds === 0) {
-              This.seconds = 0
+              console.log('hello')
+              This.isShow=false
+              This.errList=This.errList.concat(This.testList.slice(This.index))
               window.clearInterval(Time)
           }else {
               This.seconds -= 1
@@ -115,29 +119,13 @@ export default {
     },
     next(){
       console.log(this.testList[this.index].trueAnswer)
-      // if(this.tOf==this.testList[this.index].trueAnswer){
-      //   this.TrueNumber+=1
-      //   this.index+=1
-      // }else if(this.tOf==''){
-      //   this.$message.warning('请先选择这一题的答案')
-      //   // this.errList.push({word:testList[index].question,meaning:testList[index].trueAnswer})
-      //   // this.index+=1
-      // }else{
-      //   // this.$message.warning('请先选择这一题的答案')
-      //   this.errList.push({word:this.testList[this.index].question,meaning:this.testList[this.index].trueAnswer})
-      //   this.index+=1
-      // }
-
       if(this.index<this.number){
         if(this.tOf==this.testList[this.index].trueAnswer){
           this.TrueNumber+=1
           this.index+=1
         }else if(this.tOf==''){
           this.$message.warning('请先选择这一题的答案')
-          // this.errList.push({word:testList[index].question,meaning:testList[index].trueAnswer})
-          // this.index+=1
         }else{
-          // this.$message.warning('请先选择这一题的答案')
           this.errList.push({question:this.testList[this.index].question,trueAnswer:this.testList[this.index].trueAnswer,yourAnswer:this.tOf})
           this.index+=1
         }
@@ -147,15 +135,28 @@ export default {
       }
     },
     leave(){
-
+      // 调用接口提交本次考试记录
+      // sendExamRecordAPT().then(res=>{
+      //   this.$message.success('成绩已经保存在考试记录')
+      // })
+      this.$router.push('/exam/setexam')
     },
     complete(){
       this.errList.push({question:this.testList[this.index].question,trueAnswer:this.testList[this.index].trueAnswer,yourAnswer:this.tOf})
       this.isShow=false
     }
   },
+
+  // 调用接口获取测试题
+  // created(){
+  //   getExamQuestionAPI(this.ExamInfo).then(res=>{
+  //     this.testList=res.data.testList
+  //   })
+  // },
+
   mounted(){
     this.timer()
+    this.Date=dayjs(Date.now()).format('YYYY-MM-DD HH:mm')
   },
 }
 </script>
@@ -170,22 +171,6 @@ export default {
   height: 100%;
   margin:auto;
 }
-
-/* .el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    line-height: 200px;
-    margin: 0;
-  }
-  
-  .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-  }
-  
-  .el-carousel__item:nth-child(2n+1) {
-    background-color: #d3dce6;
-  } */
 
 .title{
   text-align: center;
@@ -209,15 +194,6 @@ export default {
     width:470px;
     height: 30px;
   }
-
-  /* .el-radio-button__inner{
-    width: 200px;
-  } */
-
- /* .el-radio-button--medium .el-radio-button__inner{
-    font-size: 14px;
-    width: 200px;
-  } */
 
   .el-button{
     display: block;
