@@ -3,33 +3,34 @@
     <div>
     <div>
       <el-card class="box-card1">
+        <!-- 选择单词书 -->
         <div>
           <div slot="header" class="clearfix">
             <h3>请勾选你想要测试的单词书</h3>
           </div>
           <el-row>
             <el-col :span="8">
-                <el-radio v-model="whichBookExam" :label=1><span>高中英语</span></el-radio>
+                <el-radio v-model="whichBookExam" label="book1"><span>高中英语</span></el-radio>
                 <div @click="first" class="grid-content bg-purple">
-                  <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
+                  <img src="../../assets/gaozhong.jpg" alt="">
                   <p><span>书名：</span>高中英语</p>
                   <p><span>简介：</span>针对高考打造的英语词汇书</p>
                   <p><span>适用人群：</span>高中生</p>
                 </div>
             </el-col>
             <el-col  :span="8">
-              <el-radio v-model="whichBookExam" :label=2><span>英语四级</span></el-radio>
+              <el-radio v-model="whichBookExam" label="book2"><span>英语四级</span></el-radio>
               <div @click="second" class="grid-content bg-purple">
-                <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
+                <img src="../../assets/cet4.jpg" alt="">
                 <p><span>书名：</span>英语四级</p>
                 <p><span>简介：</span>针对全国英语四级考试打造的英语词汇书</p>
                 <p><span>适用人群：</span>高中生、大学生</p>
               </div>
             </el-col>
             <el-col :span="8">
-              <el-radio v-model="whichBookExam" :label=3><span>英语六级</span></el-radio>
+              <el-radio v-model="whichBookExam" label="book3"><span>英语六级</span></el-radio>
               <div @click="third" class="grid-content bg-purple">
-                <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
+                <img src="../../assets/cet6.jpg" alt="">
                 <p><span>书名：</span>英语六级</p>
                 <p><span>简介：</span>针对全国英语六级考试打造的英语词汇书</p>
                 <p><span>适用人群：</span>大学生</p>
@@ -37,6 +38,7 @@
             </el-col>
           </el-row>
         </div>
+        <!-- 数量 -->
         <div>
           <h3>确定你想测试的单词数量</h3>
           <div>
@@ -49,6 +51,7 @@
             </el-radio-group>
           </div>
         </div>
+        <!-- 比例 -->
         <div>
           <h3>选择中英比例</h3>
           <div>
@@ -61,6 +64,7 @@
             </el-radio-group>
           </div>
         </div>
+        <!-- 时长 -->
         <div>
           <h3>自定义测试时长</h3>
           <div>
@@ -84,6 +88,7 @@
         <li v-for="w in book" :key="w.id">
           <div>
             <div class="w">单词：{{ w.word }}</div>
+            <br>
             <div class="m">释义：{{ w.meaning }}</div>
           </div>
         </li>
@@ -98,6 +103,7 @@
         <li v-for="w in book" :key="w.id">
           <div>
             <div class="w">单词：{{ w.word }}</div>
+            <br>
             <div class="m">释义：{{ w.meaning }}</div>
           </div>
         </li>
@@ -112,6 +118,7 @@
         <li v-for="w in book" :key="w.id">
           <div>
             <div class="w">单词：{{ w.word }}</div>
+            <br>
             <div class="m">释义：{{ w.meaning }}</div>
           </div>
         </li>
@@ -124,16 +131,22 @@
 <script>
 import { getBooksAPI } from '@/api';
 export default {
+  name:'setExam',
   data() {
       return {
         drawer1: false,
         drawer2: false,
         drawer3: false,
         direction: 'rtl',
+        // 记录选择那本单词书
         whichBookExam:'',
+        // 比例
         percentage:0,
+        // 数量
         examNumber:0,
+        // 时间
         testTime:0,
+        // 查看的单词书
         book:[],
       };
     },
@@ -180,8 +193,10 @@ export default {
             percentage:this.percentage,
             testTime:this.testTime
           }
+          // 保存测试相关信息到vuex
           this.$store.commit('getExamInfo',ExamInfo)
-          this.$router.push('/exam/startexam' )
+          // 跳转到考试页面
+          this.$router.push('/startexam' )
         }
       }
     }
@@ -189,30 +204,34 @@ export default {
 </script>
 
 <style scoped>
-.el-card{
-  position: relative;
-}
 
-.entryExam{
-  width: 200px;
-  position: absolute;
-  bottom: 10%;
-  right: 10%;
-}
+  .el-col img{
+    height: 60%;
+  }
+  .el-card{
+    position: relative;
+  }
 
-.el-radio {
-  margin-bottom: 10px;
-}
-.el-radio span{
-  color: red;
-  font-size: 18px;
-}
+  .entryExam{
+    width: 200px;
+    position: absolute;
+    bottom: 10%;
+    right: 10%;
+  }
 
-.el-col img{
-      width: 90%;
-      margin-left: 5%;
-    }
-    .el-row {
+  .el-radio {
+    margin-bottom: 10px;
+  }
+  .el-radio span{
+    color: red;
+    font-size: 18px;
+  }
+
+  .el-col img{
+        width: 70%;
+        margin-left: 15%;
+      }
+  .el-row {
     margin-bottom: 20px;
   }
   .el-col {
@@ -231,7 +250,6 @@ export default {
     padding: 10px 0;
     background-color: #f9fafc;
   }
-
   .grid-content p {
     padding:10px 0px 0px;
     margin: 0px;
@@ -255,5 +273,17 @@ export default {
 
   .el-drawer ol li{
     border: 1px dash black;
+  }
+
+  ol li{
+    margin-bottom: 30px;
+  }
+
+  table{
+    width: 100%;
+  }
+
+  tr td{
+    width: 33%;
   }
 </style>

@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createPersistedState from 'vuex-persistedstate'
+// import createPersistedState from 'vuex-persistedstate'
 import {getUserInfoAPI} from '@/api'
 
 Vue.use(Vuex)
 
 const actions = {
+    // 获取用户信息
     getUserInfoActions(context){
         getUserInfoAPI().then(
             res=>{
@@ -16,20 +17,28 @@ const actions = {
 }
 
 const mutations = {
+    // 保存token
     updateToken(state,newToken){
         state.token = newToken
-        // localStorage.setItem('token',newToken)
+        localStorage.setItem('token',newToken)
     },
+    // 更新用户信息
     updateUserInfo(state,val){
         state.userInfo = val
     },
+    // 获取单词书相应单词
     getReWordsInfo(state,val){
         state.ReWordsInfo.book=val.whichBook,
         state.ReWordsInfo.number=val.howManyWords
     },
+    // 获取测试相关信息
     getExamInfo(state,val){
         state.ExamInfo = val
     },
+    // 更新考试状态，true表示上次考试未结束，false表示已经结束
+    updateIsExaming(state,val){
+        state.isExaming=val
+    }
 }
 
 const getters = {
@@ -37,57 +46,21 @@ const getters = {
 }
 
 const state = {
-    token:'',
-    // token:localStorage.getItem('token')
-    userInfo:{
-        // id:0,
-        // nickname:'',
-        // password:'',
-        // email:'',
-        // username:'',
-        // userPic:'',
-    },
-    ReWordsInfo:{
-        book:'',
-        number:0
-    },
+    // 考试状态
+    isExaming:false,
+    // 从本次储存中获取token
+    token:localStorage.getItem('token'),
+    // 保存用户信息
+    userInfo:{},
+    // 保存背单词相关信息
+    ReWordsInfo:{},
+    // 保存测试相关信息
     ExamInfo:{},
-    book1:[
-                {id:'1',word:'hello',meaning:'你好',count:0,state:false},
-                {id:"2",word:'he',meaning:'他',count:1,state:true}
-            ],
-    book2:[
-                {id:'1',word:'hellofg',meaning:'你好',count:'0',state:false},
-                {id:"2",word:'hdfgefdg',meaning:'他',count:'1',state:true}
-            ],
-    book3: [
-                {id:'1',word:'hello',meaning:'你好',count:'0',state:false},
-                {id:"2",word:'he',meaning:'他',count:'1',state:true},
-                {id:'3',word:'hello',meaning:'你好',count:'0',state:false},
-                {id:"4",word:'heasdg',meaning:'他',count:'1',state:true},
-                {id:'5',word:'hellosdg',meaning:'你好',count:'0',state:false},
-                {id:"6",word:'headsg',meaning:'他',count:'1',state:true},
-                {id:'7',word:'hellosadg',meaning:'你好',count:'0',state:false},
-                {id:"8",word:'hesadg',meaning:'他',count:'1',state:true},
-                {id:'9',word:'helloasdfg',meaning:'你好',count:'0',state:false},
-                {id:"10",word:'hedsgdfsg',meaning:'他',count:'1',state:true},
-                {id:'11',word:'hello',meaning:'你好',count:'0',state:false},
-                {id:"12",word:'he',meaning:'他',count:'1',state:true},
-                {id:'13',word:'hello',meaning:'你好',count:'0',state:false},
-                {id:"14",word:'he',meaning:'他',count:'1',state:true},
-                {id:'15',word:'hello',meaning:'你好',count:'0',state:false},
-                {id:"16",word:'he',meaning:'他',count:'1',state:true},
-                {id:'17',word:'hello',meaning:'你好',count:'0',state:false},
-                {id:"18",word:'he',meaning:'他',count:'1',state:true},
-                {id:'19',word:'hello',meaning:'你好',count:'0',state:false},
-                {id:"20",word:'he',meaning:'他',count:'1',state:true}
-            ]
 }      
 
 export default new Vuex.Store({
     actions,
     mutations,
     state,
-    getters,
-    plugins:[createPersistedState()]
+    getters
 })

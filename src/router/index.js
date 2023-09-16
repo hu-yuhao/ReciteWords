@@ -19,7 +19,7 @@ const router = new VueRouter({
         {
             path:'/',
             component:MyLayout,
-            redirect:'/home',
+            redirect:'/login',
             children:[
                 {
                     path:'home',
@@ -50,35 +50,23 @@ const router = new VueRouter({
                         },
                     ]
                 },
-
-                // {
-                //     path:'wordbooks',
-                //     component:WordBooks
-                // },
-                // {
-                //     path:'recirewords',
-                //     component:ReciteWords
-                // },
                 {
                     path:'exam',
                     component:Exam,
-                    redirect:'/exam/setexam',
-                    children:[
-                        {
-                            path:'setexam',
-                            component:SetExam,
-                            meta:{
-                                title:"词易记-测前设置"
-                            }
-                        },
-                        {
-                            path:'startexam',
-                            component:StartExam,
-                            meta:{
-                                title:"词易记-单词自测"
-                            }
+                },
+                {
+                    path:'setexam',
+                    component:SetExam,
+                    meta:{
+                        title:"词易记-测前设置"
+                    }
+                },
+                {
+                    path:'startexam',
+                    component:StartExam,
+                    meta:{
+                        title:"词易记-单词自测"
                         }
-                    ]
                 },
                 {
                     path:'examrecord',
@@ -121,22 +109,25 @@ const router = new VueRouter({
     ],
 })
 
-// router.beforeEach((to, from, next) => {
-//     const token = store.state.token
-//     if(token){
-//         if(!store.state.userInfo.username){
-//             store.dispatch('getUserInfoActions')
-//         }
-//         next()
-//     }else{
-//         if(to.path=='/login'||to.path=='/reg'){
-//             next()
-//         }else{
-//             next('/login')
-//         } 
-//     }
-// })
 
+// 全局前置路由守卫，判断用户有没有token，没有则不允许进入，并且获取更新用户信息
+router.beforeEach((to, from, next) => {
+    const token = store.state.token
+    if(token){
+        if(!store.state.userInfo.username){
+            store.dispatch('getUserInfoActions')
+        }
+        next()
+    }else{
+        if(to.path=='/login'||to.path=='/reg'){
+            next()
+        }else{
+            next('/login')
+        } 
+    }
+})
+
+// 改变显示每个路由时的标题
 router.afterEach((to,from)=>{
     document.title = to.meta.title || document.title
 })

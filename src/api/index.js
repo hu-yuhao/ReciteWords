@@ -26,7 +26,7 @@ export const loginAPI = ({username,password})=>{
     })
 }
 
-// 获取用户数据
+// 获取用户数据API
 export const getUserInfoAPI = ()=>{
     return request({
         url:'/revise/get',
@@ -36,7 +36,7 @@ export const getUserInfoAPI = ()=>{
     })
 }
 
-// 获取对应单词书中的单词
+// 获取对应单词书中的单词API
 export const getBooksAPI = book=>{
     return request({
         url:'/book/show',
@@ -50,10 +50,10 @@ export const getBooksAPI = book=>{
     })
 }
 
-// 更新对应单词书中的单词
+// 更新对应单词书中的单词API
 export const updateBooksAPI = ({book,wordList})=>{
     return request({
-        url:'',
+        url:'/book/alterState',
         method:'POST',
         headers:{
             Authorization:store.state.token
@@ -65,7 +65,7 @@ export const updateBooksAPI = ({book,wordList})=>{
     })
 }
 
-// 获取背单词单词列表
+// 获取背单词单词列表API
 export const getWordListAPI = ({book,number})=>{
     return request({
         url:'/book/recite',
@@ -81,64 +81,67 @@ export const getWordListAPI = ({book,number})=>{
 }
 
 
-// 更新不记得次数
+// 更新不记得次数API
 export const updateWordsAPI = ({whichBook,wordList})=>{
     return request({
-        url:'',
-        method:'',
+        url:'/book/alterCount',
+        method:'POST',
         headers:{
             Authorization:store.state.token
         },
-        params:{
-            whichBook,
+        data:{
+            book:whichBook,
             wordList,
         }
     })
 }
 
 // 获得testList API
-export const getExamQuestionAPI=({whichBookExam,examNumber,percentage})=>{
-    return require({
-        url:'',
+export const getExamQuestionAPI=({book,number,rate})=>{
+    return request({
+        url:'/test/question',
         method:'POST',
-        header:{
+        headers:{
             Authorization:store.state.token
         },
         data:{
-            book:whichBookExam,
-            number:examNumber,
-            percentage
+            book,
+            number,
+            rate
         }
     })
 }
 
 
 // 提交本次考试记录API
-export const sendExamRecordAPT=({})=>{
-    return require({
-        url:'',
+export const sendExamRecordAPT=({date,book,number,scores})=>{
+    return request({
+        url:'/test/recordingTest',
         method:'POST',
-        header:{
+        headers:{
             Authorization:store.state.token
         },
         data:{
-            
+            date,
+            book,
+            number,
+            scores
         }
     })
 }
 
-// 获取用户考试记录
+// 获取用户考试记录API
 export const getUserExamRecordAPI=()=>{
-    return require({
-        url:'',
-        method:'',
-        header:{
+    return request({
+        url:'/test/getRecording',
+        method:'GET',
+        headers:{
             Authorization:store.state.token
         }
     })
 }
 
-
+// 更新用户基本信息API
 export const updateUserInfoAPI = ({username,nickname,email})=>{
     return request({
         url:'/revise/emailNickname',
@@ -155,6 +158,8 @@ export const updateUserInfoAPI = ({username,nickname,email})=>{
     })
 }
 
+
+// 更新用户密码API
 export const updatePwdAPI = ({oldPwd,newPwd,rePwd})=>{
     return request({
         url:'/revise/password',
@@ -170,10 +175,12 @@ export const updatePwdAPI = ({oldPwd,newPwd,rePwd})=>{
     })
 }
 
+
+// 更新用户头像API
 export const updateUserAvatarAPI = (avatar) =>{
-    return require({
-        url:'',
-        method:"",
+    return request({
+        url:'/loadImg',
+        method:"POST",
         headers:{
             Authorization:store.state.token
         },

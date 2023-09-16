@@ -24,7 +24,9 @@
 <script>
 import { updatePwdAPI } from '@/api'
 export default {
+    name:'userPWd',
     data() {
+        // 自定义校验
         const samePwd = (rules,value,callback)=>{
             if(this.pwdForm.oldPwd===value){
                 callback(new Error('新旧密码不能相同'))
@@ -45,6 +47,7 @@ export default {
                 newPwd:"",
                 rePwd:''
             },
+            // 校验
             pwdFormRules:{
                 oldPwd:[
                     {required:true, message:'请输入密码',trigger:'blur'},
@@ -82,9 +85,13 @@ export default {
                 const res = await updatePwdAPI(this.pwdForm)
                 if(res.data.code!==200)return this.$message.error(res.data.message)
                 this.$message.success(res.data.message)
+                // 清空输入框
                 this.$refs.pwdFormRef.resetFields()
+                // 清空token
                 this.$store.commit('updateToken','')
+                // 清空用户信息
                 this.$store.commit('updateUserInfo',{})
+                // 跳转至登录页面,重新登录
                 this.$router.push('/login')
               } else{
                 return false
@@ -92,6 +99,7 @@ export default {
             })
         },
         resetFn(){
+            // 清空输入框
             this.$refs.pwdFormRef.resetFields()  
         }
     }

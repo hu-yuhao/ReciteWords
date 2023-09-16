@@ -8,7 +8,7 @@
         <el-row>
           <el-col :span="8">
             <div class="grid-content bg-purple">
-              <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
+              <img src="../../assets/gaozhong.jpg" alt="">
               <p>高中英语</p>
               <br>
               <el-button @click="first" type="primary" style="margin-left: 16px;">
@@ -18,7 +18,7 @@
           </el-col>
           <el-col :span="8">
             <div class="grid-content bg-purple">
-              <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
+              <img src="../../assets/cet4.jpg" alt="">
               <p>英语四级</p>
               <br>
               <el-button @click="second" type="primary" style="margin-left: 16px;">
@@ -28,7 +28,7 @@
           </el-col>
           <el-col :span="8">
             <div class="grid-content bg-purple">
-              <img src="../../assets/u=870860854,928165858&fm=253&fmt=auto&app=138&f=JPEG.webp" alt="">
+              <img src="../../assets/cet6.jpg" alt="">
               <p>英语六级</p>
               <br>
               <el-button @click="third" type="primary" style="margin-left: 16px;">
@@ -57,8 +57,8 @@
           <p>
             <span style="width:200px; display: inline-block;">不记得次数:{{ w.count }}</span>
             <template >
-              <input type="radio" :name="w.id" v-model="w.state" value=1>已记住
-				      <input type="radio" :name="w.id" v-model="w.state" value=0>未记住
+              <el-radio v-model="w.state" :label="1">已记住</el-radio>
+              <el-radio v-model="w.state" :label="0">未记住</el-radio>
             </template>
           </p>
         </li>
@@ -80,8 +80,10 @@
           <p>
             <span style="width:200px; display: inline-block;">不记得次数:{{ w.count }}</span>
             <template >
-              <input type="radio" :name="w.id" v-model="w.state" value=1>已记住
-				      <input type="radio" :name="w.id" v-model="w.state" value=0>未记住
+              <el-radio v-model="w.state" :label="1">已记住</el-radio>
+              <el-radio v-model="w.state" :label="0">未记住</el-radio>
+              <!-- <input type="radio" :name="w.id" v-model="w.state" :value='1'>已记住
+				      <input type="radio" :name="w.id" v-model="w.state" :value='0'>未记住 -->
             </template>
           </p>
         </li>
@@ -103,8 +105,8 @@
           <p>
             <span style="width:200px; display: inline-block;">不记得次数:{{ w.count }}</span>
             <template >
-              <input type="radio" :name="w.id" v-model="w.state" value=1>已记住
-				      <input type="radio" :name="w.id" v-model="w.state" value=0>未记住
+              <el-radio v-model="w.state" :label="1">已记住</el-radio>
+              <el-radio v-model="w.state" :label="0">未记住</el-radio>
             </template>
           </p>
         </li>
@@ -112,7 +114,7 @@
     </el-drawer>
     <el-card class="box-card2">
       <div slot="header" class="clearfix">
-        <h2>设置目标</h2>
+        <h2>设置背诵目标</h2>
       </div>
       <h3>step1:选择一本你想背的单词书</h3>
       <div>
@@ -131,7 +133,6 @@
           <el-radio-button :label="80">80</el-radio-button>
           <el-radio-button :label="100">100</el-radio-button>
         </el-radio-group>
-        <!-- <el-input type="number" min="0" max="100" v-model="howManyWords" placeholder="请输入单词的数量"></el-input> -->
       </div>
       <el-button class="entry" type="success" @click="entryExam">GoGoGo</el-button>
     </el-card>
@@ -142,6 +143,7 @@
 import { getBooksAPI } from '@/api';
 import { updateBooksAPI } from '@/api';
 export default {
+  name:"WordBooks",
   data() {
       return {
         drawer1: false,
@@ -149,9 +151,9 @@ export default {
         drawer3: false,
         direction: 'rtl',
         whichBook:'',
+        // 标记现在打开的是哪本书
         thisBook:'',
         howManyWords:0,
-        // 目前都是直接拿的，应该发请求
         book:[],
       };
     },
@@ -160,7 +162,7 @@ export default {
     },
     methods: {
       first(){
-// 调用接口
+        // 调用接口，获得对应单词书
         getBooksAPI('book1').then(res=>{
           this.book = res.data.data
           this.thisBook='book1'
@@ -169,6 +171,7 @@ export default {
         this.drawer1 = true
       },
       second(){
+        // 调用接口，获得对应单词书
         getBooksAPI('book2').then(res=>{
           this.book = res.data.data
           this.thisBook='book2'
@@ -177,6 +180,7 @@ export default {
         this.drawer2 = true
       },
       third(){
+        // 调用接口，活动对应单词书
         getBooksAPI('book3').then(res=>{
           this.book = res.data.data
           this.thisBook='book3'
@@ -187,12 +191,14 @@ export default {
       handleClose(done) {
         this.$confirm('确认关闭？')
           .then(_ => {
+            // 调用接口，更新对应单词书
             updateBooksAPI({book:this.thisBook,wordList:this.book})
             done();
           })
           .catch(_ => {});
       },
       entryExam(){
+        // 做出限制，必须选好相关信息
         if(this.whichBook=='' || this.howManyWords==0){
           this.$message.error('请先选择好相关数据,再开始背单词哦')
         }else{
@@ -201,6 +207,7 @@ export default {
             whichBook:this.whichBook,
             howManyWords:this.howManyWords
           }
+          // 保存背单词信息到vuex
           this.$store.commit('getReWordsInfo',ReWordsInfo)
           this.$router.push('/srword/recirewords' )
         }
@@ -210,6 +217,9 @@ export default {
 </script>
 
 <style scoped>
+    .el-col img{
+      height: 400px;
+    }
     .el-input{
       width: 200px;
     }
@@ -235,9 +245,7 @@ export default {
   .grid-content {
     border-radius: 4px;
     min-height: 36px;
-    /* height: 200px; */
     margin-right: 20px;
-    /* text-align: center; */
   }
   .row-bg {
     padding: 10px 0;
@@ -256,11 +264,6 @@ export default {
     font-family: "华文彩云";
     font-weight: bolder;
   }
-
-  /* .el-drawer ol li>span {
-    margin-right: 0px;
-  } */
-  
   .el-drawer ol li span{
     font-size: 12px;
   }
@@ -273,13 +276,7 @@ export default {
     bottom:10%;
     width: 200px;
   }
-
-  /* .el-card{
-    background-color: #545C64;
-    border: none;
+  ol li{
+    margin-bottom: 30px;
   }
-
-  .clearfix{
-    border-bottom-color: #545C64
-  } */
 </style>

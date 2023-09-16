@@ -27,11 +27,13 @@ export default {
     name:'UserInfo',
     data() {
         return {
+            // 获取相关数据
             userForm:{
                 username:this.$store.state.userInfo.username,
                 nickname:'',
                 email:'',
             },
+            // 校验
             userFormrules:{
                 nickname:[
                     {required:true,message:'请输入昵称',trigger:'blur'},
@@ -51,7 +53,9 @@ export default {
                     const res = await updateUserInfoAPI(this.userForm)
                     if(res.data.code!==200) return this.$message.error(res.data.message)
                     this.$message.success(res.data.message)
+                    //改好基本信息后，重新获取用户信息 
                     this.$store.dispatch('getUserInfoActions')
+                    // 清空输入框
                     this.$refs.userFormRef.resetFields()
                 }else{
                     return false
@@ -59,8 +63,7 @@ export default {
             })
         },
         resetFn(){
-            // this.userForm.nickname='',
-            // this.userForm.email=''
+            // 清空输入框
             this.$refs.userFormRef.resetFields()
         }
     }

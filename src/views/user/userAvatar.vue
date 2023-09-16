@@ -36,17 +36,16 @@ export default {
             if(files.length===0){
                 this.avatar=''
             }else{
-            //    this.avatar= URL.createObjectURL(files[0])
             const fr = new FileReader()
             fr.readAsDataURL(files[0])
-            fr.onload = e =>{
-                this.avatar = e.target.result
+            fr.onload = e =>{//onload等待把文件读成base64字符串后会触发onload事件函数
+                this.avatar = e.target.result//赋值给变量。让他显示在img的src里
             }
             }
         },
         updateUserAvatar(){
             updateUserAvatarAPI(this.avatar).then(res=>{
-                if(res.data.code!==0){
+                if(res.data.code!==200){
                     this.$message.error(res.data.message)
                 }else{
                     this.$store.dispatch('getUserInfoActions')

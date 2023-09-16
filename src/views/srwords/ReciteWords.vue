@@ -35,27 +35,22 @@ export default {
   data() {
     return {
       isDis:false,
-      whichBook:this.$store.state.ReWordsInfo.whichBook,
-      // howManyWords:this.$store.state.ReWordsInfo.howManyWords,
-      howManyWords:5,
+      whichBook:this.$store.state.ReWordsInfo.book,
+      howManyWords:this.$store.state.ReWordsInfo.number,
       ReWordsInfo:this.$store.state.ReWordsInfo,
-      wordList:[
-                // {id:'1',word:'hello',meaning:'你好',count:0,state:false},
-                // {id:"2",word:'he',meaning:'他',count:0,state:true},
-                // {id:'3',word:'hello',meaning:'你好',count:0,state:false},
-                // {id:"4",word:'heasdg',meaning:'他',count:0,state:true},
-                // {id:'5',word:'hellosdg',meaning:'你好',count:0,state:false},
-      ],
+      // 收集错误单词
+      wordList:[],
+      // 单词出现次数
       scount:0,
+      // 索引
       index:0,
+      // 判断是否正确
       isErr:true,
+      // 判读是否做完
       isShow:false
     }
   },
-
-
 // 发送请求获取单词列表
-
   created(){
     getWordListAPI(this.ReWordsInfo).then(res=>{
       this.wordList=res.data.data
@@ -63,7 +58,6 @@ export default {
   },
   methods:{
     nextWord(){
-      // console.log(scount!==0)
       if(this.scount!==0){
         this.scount-=1
         this.isDis=!this.isDis
@@ -84,6 +78,7 @@ export default {
       this.isDis=!this.isDis
       this.scount=2
       this.isShow=!this.isShow
+      // 更新不记得次数
       this.wordList[this.index].count++
     },
     nrem(){
@@ -91,6 +86,7 @@ export default {
       this.isDis=!this.isDis
       this.scount=1
       this.isShow=!this.isShow
+      // 更新不记得次数
       this.wordList[this.index].count++
     },
     error(){
@@ -100,6 +96,7 @@ export default {
       this.scount=1
     }
   },
+  // 调用独享路由守卫，做出提示
   beforeRouteLeave (to, from, next) {
       this.$confirm("确定要退出吗？",'提示',{
         confirmButtonText:'休息一下！',
@@ -110,13 +107,11 @@ export default {
           type:'success',
           message:'记得及时巩固哦'
         });
-         // 此处应发送请求，更新对应单词状态
-
+        // 发送请求，更新对应单词状态
         const obj1 ={
           whichBook:this.whichBook,
           wordList:this.wordList
         }
-
          updateWordsAPI(obj1)
         next()
       }).catch(()=>{
@@ -131,9 +126,6 @@ export default {
 </script>
 
 <style scoped>
-
-
-  
   .el-icon{
     font-size: 20px;
   }

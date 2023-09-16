@@ -21,6 +21,7 @@
 <script>
 import { loginAPI } from '@/api'
 import {mapMutations} from 'vuex'
+
 export default {
     name:'MyLogin',
     data() {
@@ -29,6 +30,7 @@ export default {
                 username:'',
                 password:''
             },
+            // 做相关校验
             loginRules:{
                 username:[
                         {required:true, message:'请输入用户名',trigger:'blur'},
@@ -57,14 +59,16 @@ export default {
                 const res = await loginAPI(this.loginform)
                 if(res.data.code!==0)return this.$message.error(res.data.message);
                 this.$message.success(res.data.message)
+                // 保存token
                 this.updateToken(res.data.data['token'])
-                this.$router.push('/')
+                // 跳转到主页面
+                this.$router.push('/home')
             }else{
                 return false
             }
            })
         }
-    }
+    },
 }
 </script>
 

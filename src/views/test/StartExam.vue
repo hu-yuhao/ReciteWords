@@ -1,30 +1,28 @@
 <template>
   <div>
+    <!-- 倒计时 -->
     <div class="time" v-if="isShow">
       剩余时间{{ minutes }}分{{ seconds }}秒
     </div>
-    <!-- <el-card> -->
-
-      <template v-if="isShow">
-        <el-card>
+    <template v-if="isShow">
+      <el-card>
         <p class="title">{{ testList[index].question }}</p>
         <el-radio-group size="medium" v-model="tOf">
-          <el-radio-group size="medium" v-model="tOf"></el-radio-group>
             <p><el-radio-button  :label="answerList[0]"><div>A:{{ answerList[0] }}</div></el-radio-button></p>
             <p><el-radio-button  :label="answerList[1]"><div>B:{{ answerList[1] }}</div></el-radio-button></p>
             <p><el-radio-button  :label="answerList[2]"><div>C:{{ answerList[2] }}</div></el-radio-button></p>
             <p><el-radio-button :label="answerList[3]"><div>D:{{ answerList[3]}}</div></el-radio-button></p>
           </el-radio-group>
+          <!-- 判断是否做完 -->
           <el-button v-if="index+1<number" type="primary" @click="next">下一个</el-button>
           <el-button v-if="index+1==number"  type="primary" @click="complete">完成考试</el-button>
       </el-card>
-      </template>
+    </template>
         
       <template v-else-if="!isShow">
         <el-card>
-          <p>恭喜你已经完成所以题目,本次成绩为{{ Score }}分</p>
+          <p>恭喜你已经完成所以题目,本次成绩为<span>{{ Score }}</span>分</p>
           <h3>错题一览:</h3>
-
           <table>
             <tbody>
               <tr>
@@ -35,6 +33,7 @@
               <tr v-for="(item,index) in errList" :key="index">
                   <td>{{ item.question }}</td>
                   <td>{{ item.trueAnswer }}</td>
+                  <!-- 判断是否作答 -->
                   <td v-if="item.yourAnswer">{{ item.yourAnswer }}</td>
                   <td v-else>未作答</td>
               </tr>
@@ -49,43 +48,66 @@
 <script>
 
 import { getExamQuestionAPI, sendExamRecordAPT } from '@/api'
+// 引入格式化时间工具
 import dayjs from 'dayjs'
 export default {
+  name:'startExam',
   data() {
     return {
-      // book:this.$store.state.whichBookExam,
-      // percentage:this.$store.state.percentage,
-
       ExamInfo:this.$store.state.ExamInfo,
-
-      number:4,
+      number:this.$store.state.ExamInfo.examNumber,
       minutes:this.$store.state.ExamInfo.testTime,
       seconds:0,
-      testList:[
-        {question:'hello',trueAnswer:'你好',answer:['你好','漂亮的','美丽的','开心的']},
-        {question:'happy',trueAnswer:'开心的',answer:['111','222','333','开心的']},
-        {question:'beautiful',trueAnswer:'美丽的',answer:['11','22','美丽的','33']},
-        {question:'he',trueAnswer:'他',answer:['1','他','2','3']},
-      ],
+      // 测试题目
+      testList:[],
+      // 错误题目
       errList:[],
+      // 索引
       index:0,
+      // 正确与否
       tOf:'',
+      // 正确数量
       TrueNumber:0,
       isShow:true,
+      // 分数
       score:0,
+      // 格式化后的时间
       Date:'',
     }
   },
   computed:{
+    // 打乱选项顺序
     answerList(){
       return this.shuffle(this.testList[this.index].answer) || ['','','','']
     },
+    // 计算考试成绩，转化为百分制，向下取整
     Score(){
       this.score= Math.floor(((this.TrueNumber/this.number)*100))
       return this.score
     }
   },
+  // 调用独享路由守卫
+  beforeRouteLeave (to, from, next) {
+    if(to.path!=='/setexam'){
+      this.$confirm("测试还未结束,确定要退出吗？",'提示',{
+        confirmButtonText:'确定',
+        cancelButtonText:'不了',
+        type:'warning'
+      }).then(()=>{
+        this.$message({
+          type:'success',
+          message:'测试继续进行中，尽快回来哦'
+        });
+        // 改变考试状态，true表示考试还未完成
+        this.$store.commit('updateIsExaming',true)
+        next()
+      })
+    }else{
+      next()
+    }
+    },
   methods:{
+    // 创建定时器，倒计时显示方法
     timer(){
       const This = this
       const Time =window.setInterval(function () {
@@ -98,6 +120,7 @@ export default {
         } else if (This.minutes === 0 && This.seconds === 0) {
               console.log('hello')
               This.isShow=false
+              // 如果时间到了，将剩下的所有单词导入errList，便于展示
               This.errList=This.errList.concat(This.testList.slice(This.index))
               window.clearInterval(Time)
           }else {
@@ -105,6 +128,7 @@ export default {
           }
       }, 1000)
     },
+    // 打乱单词顺序方法
     shuffle(arr){
       var l = arr.length
       var i,temp
@@ -126,6 +150,7 @@ export default {
         }else if(this.tOf==''){
           this.$message.warning('请先选择这一题的答案')
         }else{
+          // 将错词添加到errList
           this.errList.push({question:this.testList[this.index].question,trueAnswer:this.testList[this.index].trueAnswer,yourAnswer:this.tOf})
           this.index+=1
         }
@@ -136,32 +161,62 @@ export default {
     },
     leave(){
       // 调用接口提交本次考试记录
-      // sendExamRecordAPT().then(res=>{
-      //   this.$message.success('成绩已经保存在考试记录')
-      // })
-      this.$router.push('/exam/setexam')
+      const record = {
+        date:this.Date,
+        number:this.number,
+        book:this.ExamInfo.whichBookExam,
+        scores:this.score
+      }
+      sendExamRecordAPT(record).then(res=>{
+        this.$message.success('成绩已经保存在考试记录')
+      })
+      //考试完成，销毁组件  
+      this.$destroy()
+      this.$router.push('/setexam')
     },
     complete(){
+      // 将错词添加到errList
       this.errList.push({question:this.testList[this.index].question,trueAnswer:this.testList[this.index].trueAnswer,yourAnswer:this.tOf})
+      // 展示最后成绩和错题
       this.isShow=false
     }
   },
 
   // 调用接口获取测试题
-  // created(){
-  //   getExamQuestionAPI(this.ExamInfo).then(res=>{
-  //     this.testList=res.data.testList
-  //   })
-  // },
+  created(){
+    console.log(this.ExamInfo)
+    const ExamInfo = {
+      number:this.ExamInfo.examNumber,
+      book:this.ExamInfo.whichBookExam,
+      rate:this.ExamInfo.percentage
+    }
+    console.log(ExamInfo)
+    getExamQuestionAPI(ExamInfo).then(res=>{
+      this.testList=res.data.data
+    })
+    console.log(456)
+  },
 
   mounted(){
+    // 打开定时器，开始计时
     this.timer()
+    // 获取当前格式化时间
     this.Date=dayjs(Date.now()).format('YYYY-MM-DD HH:mm')
   },
+
 }
 </script>
 
 <style scoped>
+
+  h3{
+    text-align: center;
+  }
+
+.el-card p span{
+  font-size: 15px;
+  color: red;
+}
 
 .time{
   position: absolute;
@@ -206,9 +261,17 @@ export default {
     font-weight: bolder;
   }
 
+  table{
+    width:100%
+  }
+
   td,th{
-  width: 120px;
+  width: 33%;
+  height: 50px;
   line-height: 30px;
   text-align: left;
+  text-align: center;
 }
+
+
 </style>

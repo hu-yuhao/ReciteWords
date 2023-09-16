@@ -1,25 +1,21 @@
 <template>
     <el-container>
         <el-header>
-          <h1>词 &nbsp;&nbsp;易 &nbsp;&nbsp;记</h1>
+          <h1>词 &nbsp;易 &nbsp;记</h1>
           <el-menu
             class="el-menu-demo"
-            mode="horizontal"
-            @select="handleSelect"
+            mode="horizontal"   
             background-color="#f3f3f3"
             text-color="black"
             active-text-color="#ffd04b">
-            <!-- <div>
-              <img v-if="user_pic" :src="user_pic" alt="">
-              <img v-else src="../../assets/logo.png" alt="">
-              <span>欢迎{{ nickname||username }}</span>
-            </div> -->
             <el-menu-item class="welcome">
-              <img v-if="userPic" :src="userPic" alt="">
-              <img v-else src="../../assets/logo.png" alt="">
-              欢迎<span>{{ nickname||username }}</span>
+              <!-- 有头像显示头像，无头像显示默认图片 -->
+              <div>
+                <img v-if="$store.state.userInfo.userPic" :src="'data:image/jpeg;base64,'+$store.state.userInfo.userPic" alt="">
+                <img v-else src="../../assets/logo.png" alt="">
+              </div>
+              欢迎&nbsp;<span>{{ $store.state.userInfo.nickname|| $store.state.userInfo.username }}</span>
             </el-menu-item>
-           
             <el-menu-item index="3" @click="quitBtn"><i class="el-icon-switch-button"></i>退出</el-menu-item>
           </el-menu>
         </el-header>
@@ -64,7 +60,9 @@
             </el-aside>
         <el-container>
             <el-main>
+              <keep-alive include="startExam">
                 <router-view></router-view>
+              </keep-alive>
             </el-main>
         </el-container>
   </el-container>
@@ -72,24 +70,25 @@
 </template>
 
 <script scoped>
-import { getUserInfoAPI } from '@/api';
 export default {
     name:'MyLayout',
     data() {
       return {
-        nickname:this.$store.state.userInfo.nickname,
-        userPic:this.$store.state.userInfo.userPic,
-        username:this.$store.state.userInfo.username,
+        // hasPic:this.$store.state.userInfo.userPic,
       }
     },
-    created(){
-      getUserInfoAPI().then(res=>{
-        this.$store.commit('updateUserInfo',res.data.data)
-      })
+    create(){
+      console.log(this.username)
     },
     methods:{
+      handleOpen(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose(key, keyPath) {
+        console.log(key, keyPath);
+      },
       quitBtn(){
-        this.$confirm('确定退出吗？再多学会吧', '提示', {
+        this.$confirm('确定要退出登录吗？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -101,30 +100,15 @@ export default {
          
         });
     },
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      }
   }
 }
 </script>
 
 <style scoped>
-  /* .el-aside .el-radio-button{
-    width:50%
-  } */
-
-  /* .welcome{
-    border: 1px solid rgba(15, 15, 0, 0.405);
-    border-top: none;
-    border-bottom: none;
-  } */
-
   .welcome span{
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bolder;
+    font-family: '仿宋';
   }
 
   .el-header h1 {
@@ -134,7 +118,7 @@ export default {
     margin-top: 15px;
     margin-left: -20px;
     font-size: 30px;
-    /* color: #fff; */
+    font-family: '仿宋';
   }
 
   .el-container{
@@ -154,10 +138,20 @@ export default {
 
   .el-main{
     overflow-y: scroll;
-    /* background-color: #545C64; */
   }
 
   .el-menu-item img{
     height: 30px;
+  }
+  .el-menu-item div{
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .el-menu-item div img{
+    height: 50px;
+    height: 50px;
   }
 </style>

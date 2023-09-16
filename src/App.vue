@@ -11,8 +11,8 @@
 </script>
 
 <style>
+
   .far{
-  /* background-color: red; */
     height: 100vh;
   }
 </style>
