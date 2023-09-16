@@ -96,7 +96,7 @@ export default {
       this.scount=1
     }
   },
-  // 调用独享路由守卫，做出提示
+  // 调用组件内路由守卫，做出提示
   beforeRouteLeave (to, from, next) {
       this.$confirm("确定要退出吗？",'提示',{
         confirmButtonText:'休息一下！',

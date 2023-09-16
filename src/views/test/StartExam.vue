@@ -86,7 +86,7 @@ export default {
       return this.score
     }
   },
-  // 调用独享路由守卫
+  // 调用组件内路由守卫
   beforeRouteLeave (to, from, next) {
     if(to.path!=='/setexam'){
       this.$confirm("测试还未结束,确定要退出吗？",'提示',{
